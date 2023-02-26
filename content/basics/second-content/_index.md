@@ -7,4 +7,4 @@ weight: 3
 
 ## Second content
 
-Discover what this Hugo theme is all about and the core concepts behind it, *with this SECOND CONTENT*
+Discover what this Hugo theme is all about and the core concepts behind it, *with this SECOND CONTENTTT*
