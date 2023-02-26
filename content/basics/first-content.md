@@ -7,4 +7,4 @@ weight: 2
 
 ## First Content 
 
-Discover what this Hugo theme is all about and the core concepts behind it, *FIRST CONTACT*
+Discover what this Hugo theme is all about and the core concepts behind it, *FIRST CONTACTT*
