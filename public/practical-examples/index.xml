@@ -8,13 +8,6 @@
     <language>en-us</language>
     <lastBuildDate>Sun, 26 Feb 2023 15:19:13 +0100</lastBuildDate><atom:link href="https://angelueb.github.io/clustertut/practical-examples/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>GPU job: RL-Medical with conda</title>
-      <link>https://angelueb.github.io/clustertut/practical-examples/example_gpu-conda/index.html</link>
-      <pubDate>Sun, 26 Feb 2023 15:19:13 +0100</pubDate>
-      <guid>https://angelueb.github.io/clustertut/practical-examples/example_gpu-conda/index.html</guid>
-      <description>GPU job: RL-Medical with conda</description>
-    </item>
-    <item>
       <title>Pre-installed software: RNA-Seq QC</title>
       <link>https://angelueb.github.io/clustertut/practical-examples/example_pre-installed/index.html</link>
       <pubDate>Sun, 26 Feb 2023 15:19:13 +0100</pubDate>
@@ -26,7 +19,15 @@
       <link>https://angelueb.github.io/clustertut/practical-examples/example_singularity/index.html</link>
       <pubDate>Sun, 26 Feb 2023 15:19:13 +0100</pubDate>
       <guid>https://angelueb.github.io/clustertut/practical-examples/example_singularity/index.html</guid>
-      <description>Singularity: Quasi-mapping RNA-Seq quantification</description>
+      <description>The use of Singularity containers is supported in the cluster. In contrast to other container technologies, Singularity is a good fit to HPC environments, since:
+Singularity containers don&amp;rsquo;t need administrative privileges to be executed. Performance levels are very close to regular binaries. Compatibility with Docker images, which enables the use of a huge number of readily available existing containerized tools. Container building tools similar to Docker. Users can build custom containers using already acquired general principles.</description>
+    </item>
+    <item>
+      <title>GPU job: RL-Medical with conda</title>
+      <link>https://angelueb.github.io/clustertut/practical-examples/example_gpu-conda/index.html</link>
+      <pubDate>Sun, 26 Feb 2023 15:19:13 +0100</pubDate>
+      <guid>https://angelueb.github.io/clustertut/practical-examples/example_gpu-conda/index.html</guid>
+      <description>GPU job: RL-Medical with conda</description>
     </item>
   </channel>
 </rss>
