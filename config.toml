@@ -1,0 +1,7 @@
+baseURL = 'http://example.org/'
+languageCode = 'en-us'
+title = 'UEB cluster usage tutorial'
+theme = "hugo-theme-relearn"
+
+[outputs]
+home = [ "HTML", "RSS", "SEARCH"]
