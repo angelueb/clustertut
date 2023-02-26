@@ -8,18 +8,18 @@
     <meta name="description" content="">
     <title>Singularity: Quasi-mapping RNA-Seq quantification :: UEB cluster usage tutorial</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/clustertut/css/fontawesome-all.min.css?1677443831" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fontawesome-all.min.css?1677443831" rel="stylesheet"></noscript>
-    <link href="/clustertut/css/nucleus.css?1677443831" rel="stylesheet">
-    <link href="/clustertut/css/auto-complete.css?1677443831" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/auto-complete.css?1677443831" rel="stylesheet"></noscript>
-    <link href="/clustertut/css/perfect-scrollbar.min.css?1677443831" rel="stylesheet">
-    <link href="/clustertut/css/fonts.css?1677443831" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fonts.css?1677443831" rel="stylesheet"></noscript>
-    <link href="/clustertut/css/theme.css?1677443831" rel="stylesheet">
-    <link href="/clustertut/css/theme-learn.css?1677443831" rel="stylesheet" id="variant-style">
-    <link href="/clustertut/css/variant.css?1677443831" rel="stylesheet">
-    <link href="/clustertut/css/print.css?1677443831" rel="stylesheet" media="print">
-    <link href="/clustertut/css/ie.css?1677443831" rel="stylesheet">
-    <script src="/clustertut/js/url.js?1677443831"></script>
-    <script src="/clustertut/js/variant.js?1677443831"></script>
+    <link href="/clustertut/css/fontawesome-all.min.css?1677445723" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fontawesome-all.min.css?1677445723" rel="stylesheet"></noscript>
+    <link href="/clustertut/css/nucleus.css?1677445723" rel="stylesheet">
+    <link href="/clustertut/css/auto-complete.css?1677445723" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/auto-complete.css?1677445723" rel="stylesheet"></noscript>
+    <link href="/clustertut/css/perfect-scrollbar.min.css?1677445723" rel="stylesheet">
+    <link href="/clustertut/css/fonts.css?1677445723" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fonts.css?1677445723" rel="stylesheet"></noscript>
+    <link href="/clustertut/css/theme.css?1677445723" rel="stylesheet">
+    <link href="/clustertut/css/theme-learn.css?1677445723" rel="stylesheet" id="variant-style">
+    <link href="/clustertut/css/variant.css?1677445723" rel="stylesheet">
+    <link href="/clustertut/css/print.css?1677445723" rel="stylesheet" media="print">
+    <link href="/clustertut/css/ie.css?1677445723" rel="stylesheet">
+    <script src="/clustertut/js/url.js?1677445723"></script>
+    <script src="/clustertut/js/variant.js?1677445723"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -54,11 +54,20 @@
             <span id="sidebar-toggle-span">
               <a href="#" id="sidebar-toggle" class="topbar-link" title='Menu (CTRL+ALT+n)'><i class="fas fa-bars fa-fw"></i></a>
             </span>
+            <span id="toc-menu" title='Table of Contents (CTRL+ALT+t)'><i class="fas fa-list-alt fa-fw"></i></span>
             <ol class="links" itemscope itemtype="http://schema.org/BreadcrumbList">
               <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/clustertut/index.html"><span itemprop="name">UEB Cluster Basic Tutorial</span></a><meta itemprop="position" content="1"> > </li>
               <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/clustertut/practical-examples/index.html"><span itemprop="name">Practical Examples</span></a><meta itemprop="position" content="2"> > </li>
               <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Singularity: Quasi-mapping RNA-Seq quantification</span><meta itemprop="position" content="3"></li>
             </ol>
+          </div>
+          <div class="default-animation progress">
+            <div class="toc-wrapper"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#getting-a-singularity-image">Getting a Singularity image</a></li>
+  </ul>
+</nav>
+            </div>
           </div>
         </div>
       </nav>
@@ -77,8 +86,16 @@
 <li>Container building tools similar to Docker. Users can build custom containers using already acquired general principles.</li>
 <li>Singularity containers mount several common common storage locations, like $HOME. Also, in our cluster they are configured to mount /cscratch automatically.</li>
 </ul>
-<p>For these reasons, Singularity is great for running tools on the cluster without having to request the administrators to install them system-wide. Users can simply pull existing images from public repositories, or build their own, and run them as SLURM jobs, in a very similar fashion to running regular binaries.</p>
-
+<p>For these reasons, Singularity is great for running tools on the cluster without having to request the administrators to install them system-wide. Users can simply pull existing images from public repositories, or build their own. This simplifies specially the use of tools with complex dependencies, without having to depend on system-wide installations of specific components and versions. Once ready, the containers can be run as SLURM jobs, in a very similar fashion to running regular binaries.</p>
+<p>In this example, we will use the latest version of <em>Salmon</em> from a Singularity container to perform a quasi-mapping quantification of the reads that we pre-processed in the previous example.</p>
+<h2 id="getting-a-singularity-image">Getting a Singularity image</h2>
+<p>First let&rsquo;s load de Singularity module:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ module load singularity
+</span></span></code></pre></div><p>Next, we need a container image for <em>Salmon</em>. The developers maintain an official Docker image, hosted at Docker Hub. Let&rsquo;s use Singularity to get it and convert it to .sif format (the native Singularity format) in just one simple command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ singularity pull docker://combinelab/salmon:1.10.0
+</span></span></code></pre></div><p>This will download the original image, convert it to .sif format and save it to <code>salmon_1.10.0.sif</code> in the current directory:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>-rwxrwxr-x   <span style="color:#ae81ff">1</span> angel angel <span style="color:#ae81ff">42672128</span> Feb <span style="color:#ae81ff">26</span> 22:00  salmon_1.10.0.sif
+</span></span></code></pre></div>
             <footer class="footline">
             </footer>
           </article>
@@ -99,12 +116,12 @@
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="/clustertut/js/auto-complete.js?1677443831" defer></script>
-        <script src="/clustertut/js/lunr/lunr.min.js?1677443831" defer></script>
-        <script src="/clustertut/js/lunr/lunr.stemmer.support.min.js?1677443831" defer></script>
-        <script src="/clustertut/js/lunr/lunr.multi.min.js?1677443831" defer></script>
-        <script src="/clustertut/js/lunr/lunr.en.min.js?1677443831" defer></script>
-        <script src="/clustertut/js/search.js?1677443831" defer></script>
+        <script src="/clustertut/js/auto-complete.js?1677445723" defer></script>
+        <script src="/clustertut/js/lunr/lunr.min.js?1677445723" defer></script>
+        <script src="/clustertut/js/lunr/lunr.stemmer.support.min.js?1677445723" defer></script>
+        <script src="/clustertut/js/lunr/lunr.multi.min.js?1677445723" defer></script>
+        <script src="/clustertut/js/lunr/lunr.en.min.js?1677445723" defer></script>
+        <script src="/clustertut/js/search.js?1677445723" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -155,8 +172,8 @@
         </div>
       </div>
     </aside>
-    <script src="/clustertut/js/clipboard.min.js?1677443831" defer></script>
-    <script src="/clustertut/js/perfect-scrollbar.min.js?1677443831" defer></script>
-    <script src="/clustertut/js/theme.js?1677443831" defer></script>
+    <script src="/clustertut/js/clipboard.min.js?1677445723" defer></script>
+    <script src="/clustertut/js/perfect-scrollbar.min.js?1677445723" defer></script>
+    <script src="/clustertut/js/theme.js?1677445723" defer></script>
   </body>
 </html>
