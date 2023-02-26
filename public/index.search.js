@@ -21,7 +21,7 @@ var relearn_search_index = [
     "uri": "/clustertut/seconds/index.html"
   },
   {
-    "content": "Second content Discover what this Hugo theme is all about and the core concepts behind it, with this SECOND CONTENT\n",
+    "content": "Second content Discover what this Hugo theme is all about and the core concepts behind it, with this SECOND CONTENTTT\n",
     "description": "",
     "tags": null,
     "title": "Second Content",
