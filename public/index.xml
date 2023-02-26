@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>UEB Cluster Basic Tutorial on UEB cluster usage tutorial</title>
+    <link>https://angelueb.github.io/clustertut/index.html</link>
+    <description>Recent content in UEB Cluster Basic Tutorial on UEB cluster usage tutorial</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 26 Feb 2023 15:19:24 +0100</lastBuildDate><atom:link href="https://angelueb.github.io/clustertut/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Basics</title>
+      <link>https://angelueb.github.io/clustertut/basics/index.html</link>
+      <pubDate>Sun, 26 Feb 2023 15:19:24 +0100</pubDate>
+      <guid>https://angelueb.github.io/clustertut/basics/index.html</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+    <item>
+      <title>Seconds</title>
+      <link>https://angelueb.github.io/clustertut/seconds/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://angelueb.github.io/clustertut/seconds/index.html</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+  </channel>
+</rss>
