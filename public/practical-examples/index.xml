@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Practical Examples on UEB cluster usage tutorial</title>
+    <link>https://angelueb.github.io/clustertut/practical-examples/index.html</link>
+    <description>Recent content in Practical Examples on UEB cluster usage tutorial</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 26 Feb 2023 15:19:13 +0100</lastBuildDate><atom:link href="https://angelueb.github.io/clustertut/practical-examples/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GPU job: RL-Medical with conda</title>
+      <link>https://angelueb.github.io/clustertut/practical-examples/example_gpu-conda/index.html</link>
+      <pubDate>Sun, 26 Feb 2023 15:19:13 +0100</pubDate>
+      <guid>https://angelueb.github.io/clustertut/practical-examples/example_gpu-conda/index.html</guid>
+      <description>GPU job: RL-Medical with conda</description>
+    </item>
+    <item>
+      <title>Pre-installed software: RNA-Seq QC</title>
+      <link>https://angelueb.github.io/clustertut/practical-examples/example_pre-installed/index.html</link>
+      <pubDate>Sun, 26 Feb 2023 15:19:13 +0100</pubDate>
+      <guid>https://angelueb.github.io/clustertut/practical-examples/example_pre-installed/index.html</guid>
+      <description>Pre-installed software: RNA-Seq QC</description>
+    </item>
+    <item>
+      <title>Singularity: Quasi-mapping RNA-Seq quantification</title>
+      <link>https://angelueb.github.io/clustertut/practical-examples/example_singularity/index.html</link>
+      <pubDate>Sun, 26 Feb 2023 15:19:13 +0100</pubDate>
+      <guid>https://angelueb.github.io/clustertut/practical-examples/example_singularity/index.html</guid>
+      <description>Singularity: Quasi-mapping RNA-Seq quantification</description>
+    </item>
+  </channel>
+</rss>
