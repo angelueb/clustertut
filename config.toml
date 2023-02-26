@@ -1,7 +1,13 @@
-baseURL = 'http://example.org/'
+baseURL = 'https://angelueb.github.io/clustertut'
 languageCode = 'en-us'
 title = 'UEB cluster usage tutorial'
 theme = "hugo-theme-relearn"
 
+
 [outputs]
 home = [ "HTML", "RSS", "SEARCH"]
+
+[params]
+disableLandingPageButton = true
+themeVariant = "learn"
+disableKinds = "home"
