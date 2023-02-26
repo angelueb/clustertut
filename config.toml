@@ -10,4 +10,3 @@ home = [ "HTML", "RSS", "SEARCH"]
 [params]
 disableLandingPageButton = true
 themeVariant = "learn"
-disableKinds = "home"
