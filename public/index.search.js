@@ -1,17 +1,17 @@
 var relearn_search_index = [
   {
+    "content": "Here we’ll explain some basics ;l\n",
+    "description": "",
+    "tags": null,
+    "title": "Basics",
+    "uri": "/clustertut/basics/index.html"
+  },
+  {
     "content": "We will explain in a simple way the following cases:\nUsing pre-installed software. As an example, we will be performing some Quality Control steps for RNA-Seq raw data. Using Singularity containers. As an example we’ll use the pre-processed RNA-Seq data from the previous example, to perform a quasi-mapping quantification. Using conda to set up a deep learning landmark detection tool on clinical images, which will run on GPUs ",
     "description": "",
     "tags": null,
     "title": "Practical Examples",
     "uri": "/clustertut/practical-examples/index.html"
-  },
-  {
-    "content": "Here we’ll explain some basics ;)\n",
-    "description": "",
-    "tags": null,
-    "title": "Basics",
-    "uri": "/clustertut/basics/index.html"
   },
   {
     "content": "Pre-installed software: RNA-Seq QC\n",

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://angelueb.github.io/clustertut/practical-examples/index.html</loc>
-    <lastmod>2023-02-26T15:19:13+01:00</lastmod>
+    <loc>https://angelueb.github.io/clustertut/basics/index.html</loc>
   </url>
   <url>
-    <loc>https://angelueb.github.io/clustertut/basics/index.html</loc>
+    <loc>https://angelueb.github.io/clustertut/practical-examples/index.html</loc>
+    <lastmod>2023-02-26T15:19:13+01:00</lastmod>
   </url>
   <url>
     <loc>https://angelueb.github.io/clustertut/practical-examples/example_pre-installed/index.html</loc>

@@ -4,4 +4,4 @@ title = "Basics"
 weight = 1
 +++
 
-Here we'll explain some basics ;)
+Here we'll explain some basics ;l

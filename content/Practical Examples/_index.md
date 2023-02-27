@@ -2,7 +2,7 @@
 +++
 archetype = "chapter"
 title = "Practical Examples"
-weight = 1
+weight = 2
 +++
 
 We will explain in a simple way the following cases:

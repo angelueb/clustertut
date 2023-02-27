@@ -8,19 +8,19 @@
     <language>en-us</language>
     <lastBuildDate>Sun, 26 Feb 2023 15:19:13 +0100</lastBuildDate><atom:link href="https://angelueb.github.io/clustertut/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Basics</title>
+      <link>https://angelueb.github.io/clustertut/basics/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://angelueb.github.io/clustertut/basics/index.html</guid>
+      <description>Here we&amp;rsquo;ll explain some basics ;l</description>
+    </item>
+    <item>
       <title>Practical Examples</title>
       <link>https://angelueb.github.io/clustertut/practical-examples/index.html</link>
       <pubDate>Sun, 26 Feb 2023 15:19:13 +0100</pubDate>
       <guid>https://angelueb.github.io/clustertut/practical-examples/index.html</guid>
       <description>We will explain in a simple way the following cases:
 Using pre-installed software. As an example, we will be performing some Quality Control steps for RNA-Seq raw data. Using Singularity containers. As an example we&amp;rsquo;ll use the pre-processed RNA-Seq data from the previous example, to perform a quasi-mapping quantification. Using conda to set up a deep learning landmark detection tool on clinical images, which will run on GPUs </description>
-    </item>
-    <item>
-      <title>Basics</title>
-      <link>https://angelueb.github.io/clustertut/basics/index.html</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://angelueb.github.io/clustertut/basics/index.html</guid>
-      <description>Here we&amp;rsquo;ll explain some basics ;)</description>
     </item>
   </channel>
 </rss>
