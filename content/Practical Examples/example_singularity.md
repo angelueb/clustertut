@@ -124,7 +124,7 @@ Let's check the queues:
           67  angel   regular salmon-i  RUNNING   0:03   1-00:00:00     8        c01
 ```
 
-After the job finishes, we have aour inices created:
+After the job finishes, we have our indices created:
 
 ```bash
 [angel@avicenna ~]$ cd /cscratch/angel/tutorial/dades/Rattus_norvegicus.Rnor_6.0.cdna.ncrna_index/
