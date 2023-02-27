@@ -8,18 +8,18 @@
     <meta name="description" content="">
     <title>Singularity: Quasi-mapping RNA-Seq quantification :: UEB cluster usage tutorial</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/clustertut/css/fontawesome-all.min.css?1677445723" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fontawesome-all.min.css?1677445723" rel="stylesheet"></noscript>
-    <link href="/clustertut/css/nucleus.css?1677445723" rel="stylesheet">
-    <link href="/clustertut/css/auto-complete.css?1677445723" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/auto-complete.css?1677445723" rel="stylesheet"></noscript>
-    <link href="/clustertut/css/perfect-scrollbar.min.css?1677445723" rel="stylesheet">
-    <link href="/clustertut/css/fonts.css?1677445723" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fonts.css?1677445723" rel="stylesheet"></noscript>
-    <link href="/clustertut/css/theme.css?1677445723" rel="stylesheet">
-    <link href="/clustertut/css/theme-learn.css?1677445723" rel="stylesheet" id="variant-style">
-    <link href="/clustertut/css/variant.css?1677445723" rel="stylesheet">
-    <link href="/clustertut/css/print.css?1677445723" rel="stylesheet" media="print">
-    <link href="/clustertut/css/ie.css?1677445723" rel="stylesheet">
-    <script src="/clustertut/js/url.js?1677445723"></script>
-    <script src="/clustertut/js/variant.js?1677445723"></script>
+    <link href="/clustertut/css/fontawesome-all.min.css?1677458139" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fontawesome-all.min.css?1677458139" rel="stylesheet"></noscript>
+    <link href="/clustertut/css/nucleus.css?1677458139" rel="stylesheet">
+    <link href="/clustertut/css/auto-complete.css?1677458139" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/auto-complete.css?1677458139" rel="stylesheet"></noscript>
+    <link href="/clustertut/css/perfect-scrollbar.min.css?1677458139" rel="stylesheet">
+    <link href="/clustertut/css/fonts.css?1677458139" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fonts.css?1677458139" rel="stylesheet"></noscript>
+    <link href="/clustertut/css/theme.css?1677458139" rel="stylesheet">
+    <link href="/clustertut/css/theme-learn.css?1677458139" rel="stylesheet" id="variant-style">
+    <link href="/clustertut/css/variant.css?1677458139" rel="stylesheet">
+    <link href="/clustertut/css/print.css?1677458139" rel="stylesheet" media="print">
+    <link href="/clustertut/css/ie.css?1677458139" rel="stylesheet">
+    <script src="/clustertut/js/url.js?1677458139"></script>
+    <script src="/clustertut/js/variant.js?1677458139"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -65,6 +65,7 @@
             <div class="toc-wrapper"><nav id="TableOfContents">
   <ul>
     <li><a href="#getting-a-singularity-image">Getting a Singularity image</a></li>
+    <li><a href="#quasi-mapping-quantification">Quasi-mapping quantification</a></li>
   </ul>
 </nav>
             </div>
@@ -78,24 +79,144 @@
           <article class="default">
 <h1 id="singularity-quasi-mapping-rna-seq-quantification">Singularity: Quasi-mapping RNA-Seq quantification</h1>
 
-<p>The use of Singularity containers is supported in the cluster. In contrast to other container technologies, Singularity is a good fit to HPC environments, since:</p>
+<p>The use of <strong><a href="https://sylabs.io/singularity/" target="_blank">Singularity</a></strong> containers is supported in the cluster. In contrast to other container technologies, Singularity is a good fit to HPC environments, since:</p>
 <ul>
 <li>Singularity containers don&rsquo;t need administrative privileges to be executed.</li>
 <li>Performance levels are very close to regular binaries.</li>
 <li>Compatibility with Docker images, which enables the use of a huge number of readily available existing containerized tools.</li>
 <li>Container building tools similar to Docker. Users can build custom containers using already acquired general principles.</li>
-<li>Singularity containers mount several common common storage locations, like $HOME. Also, in our cluster they are configured to mount /cscratch automatically.</li>
+<li>Singularity containers mount several common common storage locations, like <code>$HOME</code>. Also, in our cluster they are configured to mount <code>/cscratch</code> automatically.</li>
 </ul>
+<p>One of the main aims and uses of Singularity is to bring containers and reproducibility to scientific computing and high-performance computing (HPC)<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
 <p>For these reasons, Singularity is great for running tools on the cluster without having to request the administrators to install them system-wide. Users can simply pull existing images from public repositories, or build their own. This simplifies specially the use of tools with complex dependencies, without having to depend on system-wide installations of specific components and versions. Once ready, the containers can be run as SLURM jobs, in a very similar fashion to running regular binaries.</p>
-<p>In this example, we will use the latest version of <em>Salmon</em> from a Singularity container to perform a quasi-mapping quantification of the reads that we pre-processed in the previous example.</p>
+<p>In this example, we will use the latest version of <strong><a href="https://combine-lab.github.io/salmon/" target="_blank">Salmon</a></strong> from a Singularity container to perform a quasi-mapping quantification of the reads that we pre-processed in the previous example.</p>
 <h2 id="getting-a-singularity-image">Getting a Singularity image</h2>
-<p>First let&rsquo;s load de Singularity module:</p>
+<p>First let&rsquo;s load the Singularity module:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ module load singularity
-</span></span></code></pre></div><p>Next, we need a container image for <em>Salmon</em>. The developers maintain an official Docker image, hosted at Docker Hub. Let&rsquo;s use Singularity to get it and convert it to .sif format (the native Singularity format) in just one simple command:</p>
+</span></span></code></pre></div><p>Next, we need a container image for Salmon. The developers maintain an official Docker image, hosted at <a href="https://hub.docker.com/" target="_blank">Docker Hub</a>. Let&rsquo;s use Singularity to fetch it and convert it to <code>.sif</code> format (the native Singularity format) in just one simple command:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ singularity pull docker://combinelab/salmon:1.10.0
 </span></span></code></pre></div><p>This will download the original image, convert it to .sif format and save it to <code>salmon_1.10.0.sif</code> in the current directory:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>-rwxrwxr-x   <span style="color:#ae81ff">1</span> angel angel <span style="color:#ae81ff">42672128</span> Feb <span style="color:#ae81ff">26</span> 22:00  salmon_1.10.0.sif
 </span></span></code></pre></div>
+<div class="box notices cstyle info">
+  <div class="box-label"><i class="fa-fw fas fa-info-circle"></i> Info</div>
+  <div class="box-content">
+<p>The <strong><a href="https://biocontainers.pro/" target="_blank">Biocontainers</a></strong> project provides free and readily available containers for <strong>thousands</strong> of bioinformatics tools. You can get their Docker images directly from their <a href="https://quay.io/organization/biocontainers" target="_blank">Quay.io</a> space. For instance:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ singularity pull docker://quay.io/biocontainers/bowtie2:2.5.1--py310h8d7afc0_0
+</span></span></code></pre></div><p>Also, the <strong><a href="https://galaxyproject.org/" target="_blank">Galaxy Project</a></strong> (both projects are related) maintains a <a href="https://depot.galaxyproject.org/singularity/" target="_blank">repository</a> containing all the Biocontainers images already converted to the Singularity native format. For instance:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ singularity pull https://depot.galaxyproject.org/singularity/bowtie2:2.5.1--py310h8d7afc0_0
+</span></span></code></pre></div>  </div>
+</div>
+<h2 id="quasi-mapping-quantification">Quasi-mapping quantification</h2>
+<p>Once our index is ready, we can proceed to run Salmon in mapping-based mode to obtain a quasi-mapping quantification.</p>
+<p>Since our input reads are paired-end ones, we have a pair of files per each sample. We are going to use the SLURM&rsquo;s <a href="https://slurm.schedmd.com/job_array.html" target="_blank">Job Array</a> feature to automatically submit for execution all the required Salmon tasks (taking advantage of the serialized sample prefix of the files&rsquo; names).</p>
+<p>Let&rsquo;s remember this naming pattern of the input files:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ ls /cscratch/angel/tutorial/dades/cutadapt_results/
+</span></span><span style="display:flex;"><span>1244_lib_09628AAB_ATCACG_1_TRIM.fastq.gz  1260_lib_09637AAB_TAGCTT_2_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1244_lib_09628AAB_ATCACG_2_TRIM.fastq.gz  1261_lib_09638AAB_GGCTAC_1_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1245_lib_09641AAB_ATGTCA_1_TRIM.fastq.gz  1261_lib_09638AAB_GGCTAC_2_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1245_lib_09641AAB_ATGTCA_2_TRIM.fastq.gz  1262_lib_09656AAB_CCAACA_1_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1246_lib_09629AAB_CGATGT_1_TRIM.fastq.gz  1262_lib_09656AAB_CCAACA_2_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1246_lib_09629AAB_CGATGT_2_TRIM.fastq.gz  1263_lib_09639AAB_CTTGTA_1_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1247_lib_09648AAB_AGTTCC_1_TRIM.fastq.gz  1263_lib_09639AAB_CTTGTA_2_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1247_lib_09648AAB_AGTTCC_2_TRIM.fastq.gz  1264_lib_09657AAB_CGGAAT_1_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1248_lib_09649AAB_GGTAGC_1_TRIM.fastq.gz  1264_lib_09657AAB_CGGAAT_2_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1248_lib_09649AAB_GGTAGC_2_TRIM.fastq.gz  1265_lib_09640AAB_AGTCAA_1_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1249_lib_09630AAB_TTAGGC_1_TRIM.fastq.gz  1265_lib_09640AAB_AGTCAA_2_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1249_lib_09630AAB_TTAGGC_2_TRIM.fastq.gz  1266_lib_09653AAB_CAGGCG_1_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1250_lib_09631AAB_TGACCA_1_TRIM.fastq.gz  1266_lib_09653AAB_CAGGCG_2_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1250_lib_09631AAB_TGACCA_2_TRIM.fastq.gz  1267_lib_09642AAB_CCGTCC_1_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1251_lib_09632AAB_ACAGTG_1_TRIM.fastq.gz  1267_lib_09642AAB_CCGTCC_2_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1251_lib_09632AAB_ACAGTG_2_TRIM.fastq.gz  1268_lib_09658AAB_CTAGCT_1_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1252_lib_09650AAB_ACTGAT_1_TRIM.fastq.gz  1268_lib_09658AAB_CTAGCT_2_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1252_lib_09650AAB_ACTGAT_2_TRIM.fastq.gz  1270_lib_09643AAB_GTCCGC_1_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1253_lib_09651AAB_ATTCCT_1_TRIM.fastq.gz  1270_lib_09643AAB_GTCCGC_2_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1253_lib_09651AAB_ATTCCT_2_TRIM.fastq.gz  1271_lib_09644AAB_GTGAAA_1_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1254_lib_09655AAB_CATTTT_1_TRIM.fastq.gz  1271_lib_09644AAB_GTGAAA_2_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1254_lib_09655AAB_CATTTT_2_TRIM.fastq.gz  1272_lib_09645AAB_GTTTCG_1_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1255_lib_09652AAB_CAACTA_1_TRIM.fastq.gz  1272_lib_09645AAB_GTTTCG_2_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1255_lib_09652AAB_CAACTA_2_TRIM.fastq.gz  1273_lib_09646AAB_CGTACG_1_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1256_lib_09633AAB_GCCAAT_1_TRIM.fastq.gz  1273_lib_09646AAB_CGTACG_2_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1256_lib_09633AAB_GCCAAT_2_TRIM.fastq.gz  1274_lib_09654AAB_CATGGC_1_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1257_lib_09634AAB_CAGATC_1_TRIM.fastq.gz  1274_lib_09654AAB_CATGGC_2_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1257_lib_09634AAB_CAGATC_2_TRIM.fastq.gz  1275_lib_09647AAB_GAGTGG_1_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1258_lib_09635AAB_ACTTGA_1_TRIM.fastq.gz  1275_lib_09647AAB_GAGTGG_2_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1258_lib_09635AAB_ACTTGA_2_TRIM.fastq.gz  1278_lib_09659AAB_CTATAC_1_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1259_lib_09636AAB_GATCAG_1_TRIM.fastq.gz  1278_lib_09659AAB_CTATAC_2_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1259_lib_09636AAB_GATCAG_2_TRIM.fastq.gz  1279_lib_09660AAB_CTCAGA_1_TRIM.fastq.gz
+</span></span><span style="display:flex;"><span>1260_lib_09637AAB_TAGCTT_1_TRIM.fastq.gz  1279_lib_09660AAB_CTCAGA_2_TRIM.fastq.gz
+</span></span></code></pre></div><p>So let&rsquo;s prepare a sbatch job submission file accordingly:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">##This is a good example of a single-process multi-threaded Job Array</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH -p regular       # partition name</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH -c 10            # number of cores or threads requested, PER EACH TASK of the array</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH --mem 128G       # RAM requested, per each task again</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH --job-name salmon-quant01      # Job name</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH -o job.%A_%a.out               # File to which standard out will be written</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH -e job.%A_%a.err               # File to which standard err will be written</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH --array=44-79%3  # Define this job as an array.</span>
+</span></span><span style="display:flex;"><span>                         <span style="color:#75715e"># We use the samples number as range.</span>
+</span></span><span style="display:flex;"><span>                         <span style="color:#75715e"># The %3 specifies the concurrent tasks.</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Base directory for job input and output data (on /cscratch</span>
+</span></span><span style="display:flex;"><span>TUTORIAL<span style="color:#f92672">=</span>/cscratch/angel/tutorial
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Input, output and index variables</span>
+</span></span><span style="display:flex;"><span>INDIR<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TUTORIAL<span style="color:#e6db74">}</span>/dades/cutadapt_results
+</span></span><span style="display:flex;"><span>OUTDIR<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TUTORIAL<span style="color:#e6db74">}</span>/dades/salmon_quant_results_cdna_ncrna
+</span></span><span style="display:flex;"><span>INDEXFILE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TUTORIAL<span style="color:#e6db74">}</span>/dades/Rattus_norvegicus.Rnor_6.0.cdna.ncrna_index
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Using the array task ID to extract the full sample name of the file pairs</span>
+</span></span><span style="display:flex;"><span>PAIR1<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>ls <span style="color:#e6db74">${</span>INDIR<span style="color:#e6db74">}</span>/12<span style="color:#e6db74">${</span>SLURM_ARRAY_TASK_ID<span style="color:#e6db74">}</span>*_1_TRIM.fastq.gz<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>SAMPLE<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>basename <span style="color:#e6db74">${</span>PAIR1<span style="color:#e6db74">}</span> _1_TRIM.fastq.gz<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Run Salmon for each pair.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## This is the Salmon command line for each iteration of the array</span>
+</span></span><span style="display:flex;"><span>./salmon_1.10.0.sif salmon quant -i $INDEXFILE -l A <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>         -1 $INDIR/<span style="color:#e6db74">${</span>SAMPLE<span style="color:#e6db74">}</span>_1_TRIM.fastq.gz <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>         -2 $INDIR/<span style="color:#e6db74">${</span>SAMPLE<span style="color:#e6db74">}</span>_2_TRIM.fastq.gz <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>         --gcBias <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>         --seqBias <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>         --validateMappings <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>         -p <span style="color:#ae81ff">10</span> -o $OUTDIR/<span style="color:#e6db74">${</span>SAMPLE<span style="color:#e6db74">}</span>_quant
+</span></span></code></pre></div><p>Lets pay attention to the following snippets:</p>
+<ul>
+<li><code>#SBATCH -o job.%A_%a.out</code> and <code>#SBATCH -e job.%A_%a.err</code>: In a Job Array, %A is replaced by the job ID and %a is replaced by the task ID.</li>
+<li><code>#SBATCH --array=44-79%3</code>specifies the lower and upper digits of the job array task range, and the %3 means that 3 of the tasks can run at the same time at most (if there are enough available resources for them)</li>
+</ul>
+<p>We can submit now our job array:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ sbatch salmon_quant.run 
+</span></span><span style="display:flex;"><span>Submitted batch job <span style="color:#ae81ff">107</span>
+</span></span></code></pre></div><p>Let&rsquo;s check the status of our job:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ squeue -u angel -o <span style="color:#e6db74">&#34;%.13i %.6u %.9P %.8j %.8T %.6M %.12l %.5C %.10R&#34;</span>
+</span></span><span style="display:flex;"><span>        JOBID   USER PARTITION     NAME    STATE   TIME   TIME_LIMIT  CPUS NODELIST<span style="color:#f92672">(</span>REASON<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>107_<span style="color:#f92672">[</span>47-79%3<span style="color:#f92672">]</span>  angel   regular salmon-q  PENDING   0:00   1-00:00:00    <span style="color:#ae81ff">10</span> <span style="color:#f92672">(</span>JobArrayT
+</span></span><span style="display:flex;"><span>       107_44  angel   regular salmon-q  RUNNING   1:54   1-00:00:00    <span style="color:#ae81ff">10</span>        c01
+</span></span><span style="display:flex;"><span>       107_45  angel   regular salmon-q  RUNNING   1:54   1-00:00:00    <span style="color:#ae81ff">10</span>        c01
+</span></span><span style="display:flex;"><span>       107_46  angel   regular salmon-q  RUNNING   1:54   1-00:00:00    <span style="color:#ae81ff">10</span>        c01
+</span></span></code></pre></div><p>We can see that we have the first 3 tasks running at the smae time, each one using 10 cores. Also note the <code>107_[47-79%3]</code> job ID whith &lsquo;PENDING&rsquo; state, which are the remaining tasks waiting to be executed.</p>
+<p>And if we check again a couple of minutes after:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ squeue -u angel -o <span style="color:#e6db74">&#34;%.13i %.6u %.9P %.8j %.8T %.6M %.12l %.5C %.10R&#34;</span>
+</span></span><span style="display:flex;"><span>        JOBID   USER PARTITION     NAME    STATE   TIME   TIME_LIMIT  CPUS NODELIST<span style="color:#f92672">(</span>REASON<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>107_<span style="color:#f92672">[</span>50-79%3<span style="color:#f92672">]</span>  angel   regular salmon-q  PENDING   0:00   1-00:00:00    <span style="color:#ae81ff">10</span> <span style="color:#f92672">(</span>JobArrayT
+</span></span><span style="display:flex;"><span>       107_49  angel   regular salmon-q  RUNNING   0:00   1-00:00:00    <span style="color:#ae81ff">10</span>        c01
+</span></span><span style="display:flex;"><span>       107_48  angel   regular salmon-q  RUNNING   0:03   1-00:00:00    <span style="color:#ae81ff">10</span>        c01
+</span></span><span style="display:flex;"><span>       107_47  angel   regular salmon-q  RUNNING   0:05   1-00:00:00    <span style="color:#ae81ff">10</span>        c01
+</span></span></code></pre></div><p>Note that now the tasks running are the next 3 ones (47, 48 and 49), since the 3 previous ones finished.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Kurtzer, Gregory M.; Sochat, Vanessa; Bauer, Michael W. (2017). <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5426675/" target="_blank">&ldquo;Singularity: Scientific Containers for Mobility of Compute&rdquo;</a>. PLOS ONE. 12 (5): e0177459&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
             <footer class="footline">
             </footer>
           </article>
@@ -116,12 +237,12 @@
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="/clustertut/js/auto-complete.js?1677445723" defer></script>
-        <script src="/clustertut/js/lunr/lunr.min.js?1677445723" defer></script>
-        <script src="/clustertut/js/lunr/lunr.stemmer.support.min.js?1677445723" defer></script>
-        <script src="/clustertut/js/lunr/lunr.multi.min.js?1677445723" defer></script>
-        <script src="/clustertut/js/lunr/lunr.en.min.js?1677445723" defer></script>
-        <script src="/clustertut/js/search.js?1677445723" defer></script>
+        <script src="/clustertut/js/auto-complete.js?1677458139" defer></script>
+        <script src="/clustertut/js/lunr/lunr.min.js?1677458139" defer></script>
+        <script src="/clustertut/js/lunr/lunr.stemmer.support.min.js?1677458139" defer></script>
+        <script src="/clustertut/js/lunr/lunr.multi.min.js?1677458139" defer></script>
+        <script src="/clustertut/js/lunr/lunr.en.min.js?1677458139" defer></script>
+        <script src="/clustertut/js/search.js?1677458139" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -172,8 +293,8 @@
         </div>
       </div>
     </aside>
-    <script src="/clustertut/js/clipboard.min.js?1677445723" defer></script>
-    <script src="/clustertut/js/perfect-scrollbar.min.js?1677445723" defer></script>
-    <script src="/clustertut/js/theme.js?1677445723" defer></script>
+    <script src="/clustertut/js/clipboard.min.js?1677458139" defer></script>
+    <script src="/clustertut/js/perfect-scrollbar.min.js?1677458139" defer></script>
+    <script src="/clustertut/js/theme.js?1677458139" defer></script>
   </body>
 </html>
