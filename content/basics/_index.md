@@ -4,4 +4,4 @@ title = "Basics"
 weight = 1
 +++
 
-Lorem Ipsum.
+Here we'll explain some basics ;)

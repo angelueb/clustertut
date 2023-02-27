@@ -6,14 +6,7 @@
     <description>Recent content in UEB Cluster Basic Tutorial on UEB cluster usage tutorial</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 26 Feb 2023 15:19:24 +0100</lastBuildDate><atom:link href="https://angelueb.github.io/clustertut/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Basics</title>
-      <link>https://angelueb.github.io/clustertut/basics/index.html</link>
-      <pubDate>Sun, 26 Feb 2023 15:19:24 +0100</pubDate>
-      <guid>https://angelueb.github.io/clustertut/basics/index.html</guid>
-      <description>Lorem Ipsum.</description>
-    </item>
+    <lastBuildDate>Sun, 26 Feb 2023 15:19:13 +0100</lastBuildDate><atom:link href="https://angelueb.github.io/clustertut/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Practical Examples</title>
       <link>https://angelueb.github.io/clustertut/practical-examples/index.html</link>
@@ -23,11 +16,11 @@
 Using pre-installed software. As an example, we will be performing some Quality Control steps for RNA-Seq raw data. Using Singularity containers. As an example we&amp;rsquo;ll use the pre-processed RNA-Seq data from the previous example, to perform a quasi-mapping quantification. Using conda to set up a deep learning landmark detection tool on clinical images, which will run on GPUs </description>
     </item>
     <item>
-      <title>Seconds</title>
-      <link>https://angelueb.github.io/clustertut/seconds/index.html</link>
+      <title>Basics</title>
+      <link>https://angelueb.github.io/clustertut/basics/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://angelueb.github.io/clustertut/seconds/index.html</guid>
-      <description>Lorem Ipsum.</description>
+      <guid>https://angelueb.github.io/clustertut/basics/index.html</guid>
+      <description>Here we&amp;rsquo;ll explain some basics ;)</description>
     </item>
   </channel>
 </rss>
