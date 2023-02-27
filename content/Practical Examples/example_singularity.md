@@ -105,7 +105,7 @@ TRANSCRFN=${TUTORIAL}/dades/Rattus_norvegicus.Rnor_6.0.cdna.ncrna.fa.gz
 INDEXFN=${TUTORIAL}/dades/Rattus_norvegicus.Rnor_6.0.cdna.ncrna_index
 
 ## Run Salmon for creating the index
-salmon_1.10.0.sif index --threads 8 -t $TRANSCRFN -i $INDEXFN
+./salmon_1.10.0.sif salmon index --threads 8 -t $TRANSCRFN -i $INDEXFN
 
 ```
 
