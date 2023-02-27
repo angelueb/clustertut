@@ -8,18 +8,18 @@
     <meta name="description" content="">
     <title>Singularity: Quasi-mapping RNA-Seq quantification :: UEB cluster usage tutorial</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/clustertut/css/fontawesome-all.min.css?1677458139" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fontawesome-all.min.css?1677458139" rel="stylesheet"></noscript>
-    <link href="/clustertut/css/nucleus.css?1677458139" rel="stylesheet">
-    <link href="/clustertut/css/auto-complete.css?1677458139" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/auto-complete.css?1677458139" rel="stylesheet"></noscript>
-    <link href="/clustertut/css/perfect-scrollbar.min.css?1677458139" rel="stylesheet">
-    <link href="/clustertut/css/fonts.css?1677458139" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fonts.css?1677458139" rel="stylesheet"></noscript>
-    <link href="/clustertut/css/theme.css?1677458139" rel="stylesheet">
-    <link href="/clustertut/css/theme-learn.css?1677458139" rel="stylesheet" id="variant-style">
-    <link href="/clustertut/css/variant.css?1677458139" rel="stylesheet">
-    <link href="/clustertut/css/print.css?1677458139" rel="stylesheet" media="print">
-    <link href="/clustertut/css/ie.css?1677458139" rel="stylesheet">
-    <script src="/clustertut/js/url.js?1677458139"></script>
-    <script src="/clustertut/js/variant.js?1677458139"></script>
+    <link href="/clustertut/css/fontawesome-all.min.css?1677461687" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fontawesome-all.min.css?1677461687" rel="stylesheet"></noscript>
+    <link href="/clustertut/css/nucleus.css?1677461687" rel="stylesheet">
+    <link href="/clustertut/css/auto-complete.css?1677461687" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/auto-complete.css?1677461687" rel="stylesheet"></noscript>
+    <link href="/clustertut/css/perfect-scrollbar.min.css?1677461687" rel="stylesheet">
+    <link href="/clustertut/css/fonts.css?1677461687" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fonts.css?1677461687" rel="stylesheet"></noscript>
+    <link href="/clustertut/css/theme.css?1677461687" rel="stylesheet">
+    <link href="/clustertut/css/theme-learn.css?1677461687" rel="stylesheet" id="variant-style">
+    <link href="/clustertut/css/variant.css?1677461687" rel="stylesheet">
+    <link href="/clustertut/css/print.css?1677461687" rel="stylesheet" media="print">
+    <link href="/clustertut/css/ie.css?1677461687" rel="stylesheet">
+    <script src="/clustertut/js/url.js?1677461687"></script>
+    <script src="/clustertut/js/variant.js?1677461687"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -65,6 +65,8 @@
             <div class="toc-wrapper"><nav id="TableOfContents">
   <ul>
     <li><a href="#getting-a-singularity-image">Getting a Singularity image</a></li>
+    <li><a href="#getting-our-transcriptome">Getting our transcriptome</a></li>
+    <li><a href="#building-indices-with-salmon">Building indices with Salmon</a></li>
     <li><a href="#quasi-mapping-quantification">Quasi-mapping quantification</a></li>
   </ul>
 </nav>
@@ -88,7 +90,7 @@
 <li>Singularity containers mount several common common storage locations, like <code>$HOME</code>. Also, in our cluster they are configured to mount <code>/cscratch</code> automatically.</li>
 </ul>
 <p>One of the main aims and uses of Singularity is to bring containers and reproducibility to scientific computing and high-performance computing (HPC)<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
-<p>For these reasons, Singularity is great for running tools on the cluster without having to request the administrators to install them system-wide. Users can simply pull existing images from public repositories, or build their own. This simplifies specially the use of tools with complex dependencies, without having to depend on system-wide installations of specific components and versions. Once ready, the containers can be run as SLURM jobs, in a very similar fashion to running regular binaries.</p>
+<p>For these reasons, Singularity is great for running tools on the cluster without having to request the administrators to install them system-wide. Users can simply pull existing images from public repositories, or build their own. This simplifies the use of tools with complex dependencies in particular, without having to rely on system-wide installations of specific components and versions. In addition, containers enable an easier reproducibility control, given that the gathering and building of the components can be registered systematically. Once ready, the containers can be run as SLURM jobs, in a very similar fashion to running regular binaries.</p>
 <p>In this example, we will use the latest version of <strong><a href="https://combine-lab.github.io/salmon/" target="_blank">Salmon</a></strong> from a Singularity container to perform a quasi-mapping quantification of the reads that we pre-processed in the previous example.</p>
 <h2 id="getting-a-singularity-image">Getting a Singularity image</h2>
 <p>First let&rsquo;s load the Singularity module:</p>
@@ -107,9 +109,54 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ singularity pull https://depot.galaxyproject.org/singularity/bowtie2:2.5.1--py310h8d7afc0_0
 </span></span></code></pre></div>  </div>
 </div>
-<h2 id="quasi-mapping-quantification">Quasi-mapping quantification</h2>
-<p>Once our index is ready, we can proceed to run Salmon in mapping-based mode to obtain a quasi-mapping quantification.</p>
-<p>Since our input reads are paired-end ones, we have a pair of files per each sample. We are going to use the SLURM&rsquo;s <a href="https://slurm.schedmd.com/job_array.html" target="_blank">Job Array</a> feature to automatically submit for execution all the required Salmon tasks (taking advantage of the serialized sample prefix of the files&rsquo; names).</p>
+<h2 id="getting-our-transcriptome">Getting our transcriptome</h2>
+<p>We could automate the following steps but for clarity we are goint to show them as done manually.</p>
+<p>Download Rat cDNA (doesn&rsquo;t contain ncRNA sequences):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna dades<span style="color:#f92672">]</span>$ wget ftp://ftp.ensembl.org/pub/release-101/fasta/rattus_norvegicus/cdna/Rattus_norvegicus.Rnor_6.0.cdna.all.fa.gz
+</span></span></code></pre></div><p>Download Rat ncRNA:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna dades<span style="color:#f92672">]</span>$ wget ftp://ftp.ensembl.org/pub/release-101/fasta/rattus_norvegicus/ncrna/Rattus_norvegicus.Rnor_6.0.ncrna.fa.gz
+</span></span></code></pre></div><p>Concatenate both files into a single compressed fasta:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna dades<span style="color:#f92672">]</span>$ zcat Rattus_norvegicus.Rnor_6.0.cdna.all.fa.gz Rattus_norvegicus.Rnor_6.0.ncrna.fa.gz &gt;Rattus_norvegicus.Rnor_6.0.cdna.ncrna.fa.gz
+</span></span></code></pre></div><p>We also download the gene annotations (both coding and non coding RNA):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna dades<span style="color:#f92672">]</span>$ wget ftp://ftp.ensembl.org/pub/release-102/gtf/rattus_norvegicus/Rattus_norvegicus.Rnor_6.0.102.gtf.gz
+</span></span></code></pre></div><h2 id="building-indices-with-salmon">Building indices with Salmon</h2>
+<p>We can now use Salmon to build the transcriptome indices which we&rsquo;ll be using later for our quasi-mapping quantification. Let&rsquo;s prepare a file for <code>sbatch</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">##This is a good example of a single-process multi-threaded job</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH -p regular       # partition name</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH -c 8             # number of cores or threads requested, PER EACH TASK of the array</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH --mem 10G        # RAM requested, per each task again</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH --job-name salmon-index01                # Job name</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH -o job.%j.out               # File to which standard out will be written</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH -e job.%j.err               # File to which standard err will be written</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Base directory for job input and output data (on /cscratch)</span>
+</span></span><span style="display:flex;"><span>TUTORIAL<span style="color:#f92672">=</span>/cscratch/angel/tutorial
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Input, output variables</span>
+</span></span><span style="display:flex;"><span>TRANSCRFN<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TUTORIAL<span style="color:#e6db74">}</span>/dades/Rattus_norvegicus.Rnor_6.0.cdna.ncrna.fa.gz
+</span></span><span style="display:flex;"><span>INDEXFN<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TUTORIAL<span style="color:#e6db74">}</span>/dades/Rattus_norvegicus.Rnor_6.0.cdna.ncrna_index
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Run Salmon for creating the index</span>
+</span></span><span style="display:flex;"><span>salmon_1.10.0.sif index --threads <span style="color:#ae81ff">8</span> -t $TRANSCRFN -i $INDEXFN
+</span></span></code></pre></div><p>As you can see it&rsquo;s a pretty simple batch submission file. Let&rsquo;s submit it to SLURM:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ sbatch salmon_index.run 
+</span></span><span style="display:flex;"><span>Submitted batch job <span style="color:#ae81ff">67</span>
+</span></span></code></pre></div><p>Let&rsquo;s check the queues:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ squeue -u angel -o <span style="color:#e6db74">&#34;%.13i %.6u %.9P %.8j %.8T %.6M %.12l %.5C %.10R&#34;</span>
+</span></span><span style="display:flex;"><span>        JOBID   USER PARTITION     NAME    STATE   TIME   TIME_LIMIT  CPUS NODELIST<span style="color:#f92672">(</span>REASON<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#ae81ff">67</span>  angel   regular salmon-i  RUNNING   0:03   1-00:00:00     <span style="color:#ae81ff">8</span>        c01
+</span></span></code></pre></div><p>After the job finishes, we have aour inices created:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ cd /cscratch/angel/tutorial/dades/Rattus_norvegicus.Rnor_6.0.cdna.ncrna_index/
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna Rattus_norvegicus.Rnor_6.0.cdna.ncrna_index<span style="color:#f92672">]</span>$ ls
+</span></span><span style="display:flex;"><span>complete_ref_lens.bin  duplicate_clusters.tsv  pos.bin           refAccumLengths.bin  refseq.bin
+</span></span><span style="display:flex;"><span>ctable.bin             info.json               pre_indexing.log  ref_indexing.log     seq.bin
+</span></span><span style="display:flex;"><span>ctg_offsets.bin        mphf.bin                rank.bin          reflengths.bin       versionInfo.json
+</span></span></code></pre></div><h2 id="quasi-mapping-quantification">Quasi-mapping quantification</h2>
+<p>Now that our indices are ready, we can proceed to run Salmon in mapping-based mode to obtain a quasi-mapping quantification.</p>
+<p>Since our input reads are paired-end ones, we have a pair of files per each sample. We are going to use the SLURM&rsquo;s <a href="https://slurm.schedmd.com/job_array.html" target="_blank">Job Array</a> feature to automatically submit all the required Salmon tasks for execution  (taking advantage of the serialized sample prefix of the files&rsquo; names).</p>
 <p>Let&rsquo;s remember this naming pattern of the input files:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ ls /cscratch/angel/tutorial/dades/cutadapt_results/
 </span></span><span style="display:flex;"><span>1244_lib_09628AAB_ATCACG_1_TRIM.fastq.gz  1260_lib_09637AAB_TAGCTT_2_TRIM.fastq.gz
@@ -186,8 +233,8 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>         -p <span style="color:#ae81ff">10</span> -o $OUTDIR/<span style="color:#e6db74">${</span>SAMPLE<span style="color:#e6db74">}</span>_quant
 </span></span></code></pre></div><p>Lets pay attention to the following snippets:</p>
 <ul>
-<li><code>#SBATCH -o job.%A_%a.out</code> and <code>#SBATCH -e job.%A_%a.err</code>: In a Job Array, %A is replaced by the job ID and %a is replaced by the task ID.</li>
-<li><code>#SBATCH --array=44-79%3</code>specifies the lower and upper digits of the job array task range, and the %3 means that 3 of the tasks can run at the same time at most (if there are enough available resources for them)</li>
+<li><code>#SBATCH -o job.%A_%a.out</code> and <code>#SBATCH -e job.%A_%a.err</code>: In a Job Array, %A is replaced by the Array Job ID and %a is replaced by the each Array Task ID.</li>
+<li><code>#SBATCH --array=44-79%3</code>specifies the lower and upper digits of the job array task range, and the &lsquo;%3&rsquo; means that 3 of the tasks can run at the same time at most (if there are enough available resources for them)</li>
 </ul>
 <p>We can submit now our job array:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ sbatch salmon_quant.run 
@@ -207,7 +254,98 @@
 </span></span><span style="display:flex;"><span>       107_49  angel   regular salmon-q  RUNNING   0:00   1-00:00:00    <span style="color:#ae81ff">10</span>        c01
 </span></span><span style="display:flex;"><span>       107_48  angel   regular salmon-q  RUNNING   0:03   1-00:00:00    <span style="color:#ae81ff">10</span>        c01
 </span></span><span style="display:flex;"><span>       107_47  angel   regular salmon-q  RUNNING   0:05   1-00:00:00    <span style="color:#ae81ff">10</span>        c01
-</span></span></code></pre></div><p>Note that now the tasks running are the next 3 ones (47, 48 and 49), since the 3 previous ones finished.</p>
+</span></span></code></pre></div><p>Note that now the next 3 tasks are running (47, 48 and 49), since the 3 previous ones finished.</p>
+<p>We can also check the <code>scontrol</code> information for the job (truncated):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ scontrol show jobid -d <span style="color:#ae81ff">107</span>
+</span></span><span style="display:flex;"><span>JobId<span style="color:#f92672">=</span><span style="color:#ae81ff">107</span> ArrayJobId<span style="color:#f92672">=</span><span style="color:#ae81ff">107</span> ArrayTaskId<span style="color:#f92672">=</span>57-79%3 ArrayTaskThrottle<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> JobName<span style="color:#f92672">=</span>salmon-quant01
+</span></span><span style="display:flex;"><span>   UserId<span style="color:#f92672">=</span>angel<span style="color:#f92672">(</span>1000<span style="color:#f92672">)</span> GroupId<span style="color:#f92672">=</span>angel<span style="color:#f92672">(</span>1000<span style="color:#f92672">)</span> MCS_label<span style="color:#f92672">=</span>N/A
+</span></span><span style="display:flex;"><span>   Priority<span style="color:#f92672">=</span><span style="color:#ae81ff">4294901744</span> Nice<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> Account<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span> QOS<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   JobState<span style="color:#f92672">=</span>PENDING Reason<span style="color:#f92672">=</span>JobArrayTaskLimit Dependency<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   Requeue<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> Restarts<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> BatchFlag<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> Reboot<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> ExitCode<span style="color:#f92672">=</span>0:0
+</span></span><span style="display:flex;"><span>   DerivedExitCode<span style="color:#f92672">=</span>0:0
+</span></span><span style="display:flex;"><span>   RunTime<span style="color:#f92672">=</span>00:00:00 TimeLimit<span style="color:#f92672">=</span>1-00:00:00 TimeMin<span style="color:#f92672">=</span>N/A
+</span></span><span style="display:flex;"><span>   SubmitTime<span style="color:#f92672">=</span>2023-02-27T01:25:30 EligibleTime<span style="color:#f92672">=</span>Unknown
+</span></span><span style="display:flex;"><span>   AccrueTime<span style="color:#f92672">=</span>2023-02-27T01:25:31
+</span></span><span style="display:flex;"><span>   StartTime<span style="color:#f92672">=</span>Unknown EndTime<span style="color:#f92672">=</span>Unknown Deadline<span style="color:#f92672">=</span>N/A
+</span></span><span style="display:flex;"><span>   SuspendTime<span style="color:#f92672">=</span>None SecsPreSuspend<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> LastSchedEval<span style="color:#f92672">=</span>2023-02-27T01:36:38 Scheduler<span style="color:#f92672">=</span>Main
+</span></span><span style="display:flex;"><span>   Partition<span style="color:#f92672">=</span>regular AllocNode:Sid<span style="color:#f92672">=</span>avicenna:1464201
+</span></span><span style="display:flex;"><span>   ReqNodeList<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span> ExcNodeList<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   NodeList<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   NumNodes<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> NumCPUs<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span> NumTasks<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> CPUs/Task<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span> ReqB:S:C:T<span style="color:#f92672">=</span>0:0:*:*
+</span></span><span style="display:flex;"><span>   TRES<span style="color:#f92672">=</span>cpu<span style="color:#f92672">=</span>10,mem<span style="color:#f92672">=</span>128G,node<span style="color:#f92672">=</span>1,billing<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>   Socks/Node<span style="color:#f92672">=</span>* NtasksPerN:B:S:C<span style="color:#f92672">=</span>0:0:*:* CoreSpec<span style="color:#f92672">=</span>*
+</span></span><span style="display:flex;"><span>   MinCPUsNode<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span> MinMemoryNode<span style="color:#f92672">=</span>128G MinTmpDiskNode<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>   Features<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span> DelayBoot<span style="color:#f92672">=</span>00:00:00
+</span></span><span style="display:flex;"><span>   OverSubscribe<span style="color:#f92672">=</span>OK Contiguous<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> Licenses<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span> Network<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   Command<span style="color:#f92672">=</span>/home/angel/salmon_quant.run
+</span></span><span style="display:flex;"><span>   WorkDir<span style="color:#f92672">=</span>/home/angel
+</span></span><span style="display:flex;"><span>   StdErr<span style="color:#f92672">=</span>/home/angel/job.107_4294967294.err
+</span></span><span style="display:flex;"><span>   StdIn<span style="color:#f92672">=</span>/dev/null
+</span></span><span style="display:flex;"><span>   StdOut<span style="color:#f92672">=</span>/home/angel/job.107_4294967294.out
+</span></span><span style="display:flex;"><span>   Power<span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>   
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>JobId<span style="color:#f92672">=</span><span style="color:#ae81ff">120</span> ArrayJobId<span style="color:#f92672">=</span><span style="color:#ae81ff">107</span> ArrayTaskId<span style="color:#f92672">=</span><span style="color:#ae81ff">56</span> ArrayTaskThrottle<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> JobName<span style="color:#f92672">=</span>salmon-quant01
+</span></span><span style="display:flex;"><span>   UserId<span style="color:#f92672">=</span>angel<span style="color:#f92672">(</span>1000<span style="color:#f92672">)</span> GroupId<span style="color:#f92672">=</span>angel<span style="color:#f92672">(</span>1000<span style="color:#f92672">)</span> MCS_label<span style="color:#f92672">=</span>N/A
+</span></span><span style="display:flex;"><span>   Priority<span style="color:#f92672">=</span><span style="color:#ae81ff">4294901744</span> Nice<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> Account<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span> QOS<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   JobState<span style="color:#f92672">=</span>RUNNING Reason<span style="color:#f92672">=</span>None Dependency<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   Requeue<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> Restarts<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> BatchFlag<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> Reboot<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> ExitCode<span style="color:#f92672">=</span>0:0
+</span></span><span style="display:flex;"><span>   DerivedExitCode<span style="color:#f92672">=</span>0:0
+</span></span><span style="display:flex;"><span>   RunTime<span style="color:#f92672">=</span>00:00:38 TimeLimit<span style="color:#f92672">=</span>1-00:00:00 TimeMin<span style="color:#f92672">=</span>N/A
+</span></span><span style="display:flex;"><span>   SubmitTime<span style="color:#f92672">=</span>2023-02-27T01:25:30 EligibleTime<span style="color:#f92672">=</span>2023-02-27T01:36:38
+</span></span><span style="display:flex;"><span>   AccrueTime<span style="color:#f92672">=</span>2023-02-27T01:25:31
+</span></span><span style="display:flex;"><span>   StartTime<span style="color:#f92672">=</span>2023-02-27T01:36:38 EndTime<span style="color:#f92672">=</span>2023-02-28T01:36:38 Deadline<span style="color:#f92672">=</span>N/A
+</span></span><span style="display:flex;"><span>   SuspendTime<span style="color:#f92672">=</span>None SecsPreSuspend<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> LastSchedEval<span style="color:#f92672">=</span>2023-02-27T01:36:38 Scheduler<span style="color:#f92672">=</span>Main
+</span></span><span style="display:flex;"><span>   Partition<span style="color:#f92672">=</span>regular AllocNode:Sid<span style="color:#f92672">=</span>avicenna:1464201
+</span></span><span style="display:flex;"><span>   ReqNodeList<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span> ExcNodeList<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   NodeList<span style="color:#f92672">=</span>c01
+</span></span><span style="display:flex;"><span>   BatchHost<span style="color:#f92672">=</span>c01
+</span></span><span style="display:flex;"><span>   NumNodes<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> NumCPUs<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span> NumTasks<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> CPUs/Task<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span> ReqB:S:C:T<span style="color:#f92672">=</span>0:0:*:*
+</span></span><span style="display:flex;"><span>   TRES<span style="color:#f92672">=</span>cpu<span style="color:#f92672">=</span>10,mem<span style="color:#f92672">=</span>128G,node<span style="color:#f92672">=</span>1,billing<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>   Socks/Node<span style="color:#f92672">=</span>* NtasksPerN:B:S:C<span style="color:#f92672">=</span>0:0:*:* CoreSpec<span style="color:#f92672">=</span>*
+</span></span><span style="display:flex;"><span>   JOB_GRES<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>     Nodes<span style="color:#f92672">=</span>c01 CPU_IDs<span style="color:#f92672">=</span>20-29 Mem<span style="color:#f92672">=</span><span style="color:#ae81ff">131072</span> GRES<span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>   MinCPUsNode<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span> MinMemoryNode<span style="color:#f92672">=</span>128G MinTmpDiskNode<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>   Features<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span> DelayBoot<span style="color:#f92672">=</span>00:00:00
+</span></span><span style="display:flex;"><span>   OverSubscribe<span style="color:#f92672">=</span>OK Contiguous<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> Licenses<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span> Network<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   Command<span style="color:#f92672">=</span>/home/angel/salmon_quant.run
+</span></span><span style="display:flex;"><span>   WorkDir<span style="color:#f92672">=</span>/home/angel
+</span></span><span style="display:flex;"><span>   StdErr<span style="color:#f92672">=</span>/home/angel/job.107_56.err
+</span></span><span style="display:flex;"><span>   StdIn<span style="color:#f92672">=</span>/dev/null
+</span></span><span style="display:flex;"><span>   StdOut<span style="color:#f92672">=</span>/home/angel/job.107_56.out
+</span></span><span style="display:flex;"><span>   Power<span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>   
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>JobId<span style="color:#f92672">=</span><span style="color:#ae81ff">119</span> ArrayJobId<span style="color:#f92672">=</span><span style="color:#ae81ff">107</span> ArrayTaskId<span style="color:#f92672">=</span><span style="color:#ae81ff">55</span> ArrayTaskThrottle<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> JobName<span style="color:#f92672">=</span>salmon-quant01
+</span></span><span style="display:flex;"><span>   UserId<span style="color:#f92672">=</span>angel<span style="color:#f92672">(</span>1000<span style="color:#f92672">)</span> GroupId<span style="color:#f92672">=</span>angel<span style="color:#f92672">(</span>1000<span style="color:#f92672">)</span> MCS_label<span style="color:#f92672">=</span>N/A
+</span></span><span style="display:flex;"><span>   Priority<span style="color:#f92672">=</span><span style="color:#ae81ff">4294901744</span> Nice<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> Account<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span> QOS<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   JobState<span style="color:#f92672">=</span>RUNNING Reason<span style="color:#f92672">=</span>None Dependency<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   Requeue<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> Restarts<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> BatchFlag<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> Reboot<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> ExitCode<span style="color:#f92672">=</span>0:0
+</span></span><span style="display:flex;"><span>   DerivedExitCode<span style="color:#f92672">=</span>0:0
+</span></span><span style="display:flex;"><span>   RunTime<span style="color:#f92672">=</span>00:02:50 TimeLimit<span style="color:#f92672">=</span>1-00:00:00 TimeMin<span style="color:#f92672">=</span>N/A
+</span></span><span style="display:flex;"><span>   SubmitTime<span style="color:#f92672">=</span>2023-02-27T01:25:30 EligibleTime<span style="color:#f92672">=</span>2023-02-27T01:34:26
+</span></span><span style="display:flex;"><span>   AccrueTime<span style="color:#f92672">=</span>2023-02-27T01:25:31
+</span></span><span style="display:flex;"><span>   StartTime<span style="color:#f92672">=</span>2023-02-27T01:34:26 EndTime<span style="color:#f92672">=</span>2023-02-28T01:34:26 Deadline<span style="color:#f92672">=</span>N/A
+</span></span><span style="display:flex;"><span>   SuspendTime<span style="color:#f92672">=</span>None SecsPreSuspend<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> LastSchedEval<span style="color:#f92672">=</span>2023-02-27T01:34:26 Scheduler<span style="color:#f92672">=</span>Main
+</span></span><span style="display:flex;"><span>   Partition<span style="color:#f92672">=</span>regular AllocNode:Sid<span style="color:#f92672">=</span>avicenna:1464201
+</span></span><span style="display:flex;"><span>   ReqNodeList<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span> ExcNodeList<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   NodeList<span style="color:#f92672">=</span>c01
+</span></span><span style="display:flex;"><span>   BatchHost<span style="color:#f92672">=</span>c01
+</span></span><span style="display:flex;"><span>   NumNodes<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> NumCPUs<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span> NumTasks<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> CPUs/Task<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span> ReqB:S:C:T<span style="color:#f92672">=</span>0:0:*:*
+</span></span><span style="display:flex;"><span>   TRES<span style="color:#f92672">=</span>cpu<span style="color:#f92672">=</span>10,mem<span style="color:#f92672">=</span>128G,node<span style="color:#f92672">=</span>1,billing<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>   Socks/Node<span style="color:#f92672">=</span>* NtasksPerN:B:S:C<span style="color:#f92672">=</span>0:0:*:* CoreSpec<span style="color:#f92672">=</span>*
+</span></span><span style="display:flex;"><span>   JOB_GRES<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>     Nodes<span style="color:#f92672">=</span>c01 CPU_IDs<span style="color:#f92672">=</span>10-19 Mem<span style="color:#f92672">=</span><span style="color:#ae81ff">131072</span> GRES<span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>   MinCPUsNode<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span> MinMemoryNode<span style="color:#f92672">=</span>128G MinTmpDiskNode<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>   Features<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span> DelayBoot<span style="color:#f92672">=</span>00:00:00
+</span></span><span style="display:flex;"><span>   OverSubscribe<span style="color:#f92672">=</span>OK Contiguous<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> Licenses<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span> Network<span style="color:#f92672">=(</span>null<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   Command<span style="color:#f92672">=</span>/home/angel/salmon_quant.run
+</span></span><span style="display:flex;"><span>   WorkDir<span style="color:#f92672">=</span>/home/angel
+</span></span><span style="display:flex;"><span>   StdErr<span style="color:#f92672">=</span>/home/angel/job.107_55.err
+</span></span><span style="display:flex;"><span>   StdIn<span style="color:#f92672">=</span>/dev/null
+</span></span><span style="display:flex;"><span>   StdOut<span style="color:#f92672">=</span>/home/angel/job.107_55.out
+</span></span><span style="display:flex;"><span>   Power<span style="color:#f92672">=</span>
+</span></span></code></pre></div><p>As you can see, the output shows information about the jobs and about the individual tasks.</p>
 <div class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
@@ -237,12 +375,12 @@
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="/clustertut/js/auto-complete.js?1677458139" defer></script>
-        <script src="/clustertut/js/lunr/lunr.min.js?1677458139" defer></script>
-        <script src="/clustertut/js/lunr/lunr.stemmer.support.min.js?1677458139" defer></script>
-        <script src="/clustertut/js/lunr/lunr.multi.min.js?1677458139" defer></script>
-        <script src="/clustertut/js/lunr/lunr.en.min.js?1677458139" defer></script>
-        <script src="/clustertut/js/search.js?1677458139" defer></script>
+        <script src="/clustertut/js/auto-complete.js?1677461687" defer></script>
+        <script src="/clustertut/js/lunr/lunr.min.js?1677461687" defer></script>
+        <script src="/clustertut/js/lunr/lunr.stemmer.support.min.js?1677461687" defer></script>
+        <script src="/clustertut/js/lunr/lunr.multi.min.js?1677461687" defer></script>
+        <script src="/clustertut/js/lunr/lunr.en.min.js?1677461687" defer></script>
+        <script src="/clustertut/js/search.js?1677461687" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -293,8 +431,8 @@
         </div>
       </div>
     </aside>
-    <script src="/clustertut/js/clipboard.min.js?1677458139" defer></script>
-    <script src="/clustertut/js/perfect-scrollbar.min.js?1677458139" defer></script>
-    <script src="/clustertut/js/theme.js?1677458139" defer></script>
+    <script src="/clustertut/js/clipboard.min.js?1677461687" defer></script>
+    <script src="/clustertut/js/perfect-scrollbar.min.js?1677461687" defer></script>
+    <script src="/clustertut/js/theme.js?1677461687" defer></script>
   </body>
 </html>

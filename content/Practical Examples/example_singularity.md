@@ -14,7 +14,7 @@ The use of **[Singularity](https://sylabs.io/singularity/)** containers is suppo
 
 One of the main aims and uses of Singularity is to bring containers and reproducibility to scientific computing and high-performance computing (HPC)[^1]
 
-For these reasons, Singularity is great for running tools on the cluster without having to request the administrators to install them system-wide. Users can simply pull existing images from public repositories, or build their own. This simplifies specially the use of tools with complex dependencies, without having to depend on system-wide installations of specific components and versions. Once ready, the containers can be run as SLURM jobs, in a very similar fashion to running regular binaries.
+For these reasons, Singularity is great for running tools on the cluster without having to request the administrators to install them system-wide. Users can simply pull existing images from public repositories, or build their own. This simplifies the use of tools with complex dependencies in particular, without having to rely on system-wide installations of specific components and versions. In addition, containers enable an easier reproducibility control, given that the gathering and building of the components can be registered systematically. Once ready, the containers can be run as SLURM jobs, in a very similar fashion to running regular binaries.
 
 
 In this example, we will use the latest version of **[Salmon](https://combine-lab.github.io/salmon/)** from a Singularity container to perform a quasi-mapping quantification of the reads that we pre-processed in the previous example.
@@ -54,12 +54,91 @@ Also, the **[Galaxy Project](https://galaxyproject.org/)** (both projects are re
 ```
 {{% /notice %}}
 
+## Getting our transcriptome 
+
+We could automate the following steps but for clarity we are goint to show them as done manually.
+
+Download Rat cDNA (doesn't contain ncRNA sequences):
+```bash
+[angel@avicenna dades]$ wget ftp://ftp.ensembl.org/pub/release-101/fasta/rattus_norvegicus/cdna/Rattus_norvegicus.Rnor_6.0.cdna.all.fa.gz
+```
+
+Download Rat ncRNA:
+
+```bash
+[angel@avicenna dades]$ wget ftp://ftp.ensembl.org/pub/release-101/fasta/rattus_norvegicus/ncrna/Rattus_norvegicus.Rnor_6.0.ncrna.fa.gz
+```
+
+Concatenate both files into a single compressed fasta:
+
+```bash
+[angel@avicenna dades]$ zcat Rattus_norvegicus.Rnor_6.0.cdna.all.fa.gz Rattus_norvegicus.Rnor_6.0.ncrna.fa.gz >Rattus_norvegicus.Rnor_6.0.cdna.ncrna.fa.gz
+```
+
+We also download the gene annotations (both coding and non coding RNA):
+
+```bash
+[angel@avicenna dades]$ wget ftp://ftp.ensembl.org/pub/release-102/gtf/rattus_norvegicus/Rattus_norvegicus.Rnor_6.0.102.gtf.gz
+```
+
+## Building indices with Salmon
+
+We can now use Salmon to build the transcriptome indices which we'll be using later for our quasi-mapping quantification. Let's prepare a file for `sbatch`:
+
+```bash
+#!/bin/bash
+
+##This is a good example of a single-process multi-threaded job
+
+#SBATCH -p regular       # partition name
+#SBATCH -c 8             # number of cores or threads requested, PER EACH TASK of the array
+#SBATCH --mem 10G        # RAM requested, per each task again
+#SBATCH --job-name salmon-index01                # Job name
+#SBATCH -o job.%j.out               # File to which standard out will be written
+#SBATCH -e job.%j.err               # File to which standard err will be written
+
+## Base directory for job input and output data (on /cscratch)
+TUTORIAL=/cscratch/angel/tutorial
+
+## Input, output variables
+TRANSCRFN=${TUTORIAL}/dades/Rattus_norvegicus.Rnor_6.0.cdna.ncrna.fa.gz
+INDEXFN=${TUTORIAL}/dades/Rattus_norvegicus.Rnor_6.0.cdna.ncrna_index
+
+## Run Salmon for creating the index
+salmon_1.10.0.sif index --threads 8 -t $TRANSCRFN -i $INDEXFN
+
+```
+
+As you can see it's a pretty simple batch submission file. Let's submit it to SLURM:
+
+```bash
+[angel@avicenna ~]$ sbatch salmon_index.run 
+Submitted batch job 67
+
+```
+Let's check the queues:
+
+```bash
+[angel@avicenna ~]$ squeue -u angel -o "%.13i %.6u %.9P %.8j %.8T %.6M %.12l %.5C %.10R"
+        JOBID   USER PARTITION     NAME    STATE   TIME   TIME_LIMIT  CPUS NODELIST(REASON)
+          67  angel   regular salmon-i  RUNNING   0:03   1-00:00:00     8        c01
+```
+
+After the job finishes, we have aour inices created:
+
+```bash
+[angel@avicenna ~]$ cd /cscratch/angel/tutorial/dades/Rattus_norvegicus.Rnor_6.0.cdna.ncrna_index/
+[angel@avicenna Rattus_norvegicus.Rnor_6.0.cdna.ncrna_index]$ ls
+complete_ref_lens.bin  duplicate_clusters.tsv  pos.bin           refAccumLengths.bin  refseq.bin
+ctable.bin             info.json               pre_indexing.log  ref_indexing.log     seq.bin
+ctg_offsets.bin        mphf.bin                rank.bin          reflengths.bin       versionInfo.json
+```
 
 ## Quasi-mapping quantification
 
-Once our index is ready, we can proceed to run Salmon in mapping-based mode to obtain a quasi-mapping quantification.
+Now that our indices are ready, we can proceed to run Salmon in mapping-based mode to obtain a quasi-mapping quantification.
 
-Since our input reads are paired-end ones, we have a pair of files per each sample. We are going to use the SLURM's [Job Array](https://slurm.schedmd.com/job_array.html) feature to automatically submit for execution all the required Salmon tasks (taking advantage of the serialized sample prefix of the files' names). 
+Since our input reads are paired-end ones, we have a pair of files per each sample. We are going to use the SLURM's [Job Array](https://slurm.schedmd.com/job_array.html) feature to automatically submit all the required Salmon tasks for execution  (taking advantage of the serialized sample prefix of the files' names). 
 
 Let's remember this naming pattern of the input files:
 
@@ -148,8 +227,8 @@ SAMPLE=$(basename ${PAIR1} _1_TRIM.fastq.gz)
 
 Lets pay attention to the following snippets:
 
-* `#SBATCH -o job.%A_%a.out` and `#SBATCH -e job.%A_%a.err`: In a Job Array, %A is replaced by the job ID and %a is replaced by the task ID.
-* `#SBATCH --array=44-79%3`specifies the lower and upper digits of the job array task range, and the %3 means that 3 of the tasks can run at the same time at most (if there are enough available resources for them)
+* `#SBATCH -o job.%A_%a.out` and `#SBATCH -e job.%A_%a.err`: In a Job Array, %A is replaced by the Array Job ID and %a is replaced by the each Array Task ID.
+* `#SBATCH --array=44-79%3`specifies the lower and upper digits of the job array task range, and the '%3' means that 3 of the tasks can run at the same time at most (if there are enough available resources for them)
 
 We can submit now our job array:
 
@@ -182,9 +261,104 @@ And if we check again a couple of minutes after:
        107_47  angel   regular salmon-q  RUNNING   0:05   1-00:00:00    10        c01
 ```
 
-Note that now the tasks running are the next 3 ones (47, 48 and 49), since the 3 previous ones finished.
+Note that now the next 3 tasks are running (47, 48 and 49), since the 3 previous ones finished.
 
+We can also check the `scontrol` information for the job (truncated):
 
+```bash
+[angel@avicenna ~]$ scontrol show jobid -d 107
+JobId=107 ArrayJobId=107 ArrayTaskId=57-79%3 ArrayTaskThrottle=3 JobName=salmon-quant01
+   UserId=angel(1000) GroupId=angel(1000) MCS_label=N/A
+   Priority=4294901744 Nice=0 Account=(null) QOS=(null)
+   JobState=PENDING Reason=JobArrayTaskLimit Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   DerivedExitCode=0:0
+   RunTime=00:00:00 TimeLimit=1-00:00:00 TimeMin=N/A
+   SubmitTime=2023-02-27T01:25:30 EligibleTime=Unknown
+   AccrueTime=2023-02-27T01:25:31
+   StartTime=Unknown EndTime=Unknown Deadline=N/A
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2023-02-27T01:36:38 Scheduler=Main
+   Partition=regular AllocNode:Sid=avicenna:1464201
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=(null)
+   NumNodes=1 NumCPUs=10 NumTasks=1 CPUs/Task=10 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=10,mem=128G,node=1,billing=10
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=10 MinMemoryNode=128G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/home/angel/salmon_quant.run
+   WorkDir=/home/angel
+   StdErr=/home/angel/job.107_4294967294.err
+   StdIn=/dev/null
+   StdOut=/home/angel/job.107_4294967294.out
+   Power=
+   
+
+JobId=120 ArrayJobId=107 ArrayTaskId=56 ArrayTaskThrottle=3 JobName=salmon-quant01
+   UserId=angel(1000) GroupId=angel(1000) MCS_label=N/A
+   Priority=4294901744 Nice=0 Account=(null) QOS=(null)
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   DerivedExitCode=0:0
+   RunTime=00:00:38 TimeLimit=1-00:00:00 TimeMin=N/A
+   SubmitTime=2023-02-27T01:25:30 EligibleTime=2023-02-27T01:36:38
+   AccrueTime=2023-02-27T01:25:31
+   StartTime=2023-02-27T01:36:38 EndTime=2023-02-28T01:36:38 Deadline=N/A
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2023-02-27T01:36:38 Scheduler=Main
+   Partition=regular AllocNode:Sid=avicenna:1464201
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=c01
+   BatchHost=c01
+   NumNodes=1 NumCPUs=10 NumTasks=1 CPUs/Task=10 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=10,mem=128G,node=1,billing=10
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   JOB_GRES=(null)
+     Nodes=c01 CPU_IDs=20-29 Mem=131072 GRES=
+   MinCPUsNode=10 MinMemoryNode=128G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/home/angel/salmon_quant.run
+   WorkDir=/home/angel
+   StdErr=/home/angel/job.107_56.err
+   StdIn=/dev/null
+   StdOut=/home/angel/job.107_56.out
+   Power=
+   
+
+JobId=119 ArrayJobId=107 ArrayTaskId=55 ArrayTaskThrottle=3 JobName=salmon-quant01
+   UserId=angel(1000) GroupId=angel(1000) MCS_label=N/A
+   Priority=4294901744 Nice=0 Account=(null) QOS=(null)
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   DerivedExitCode=0:0
+   RunTime=00:02:50 TimeLimit=1-00:00:00 TimeMin=N/A
+   SubmitTime=2023-02-27T01:25:30 EligibleTime=2023-02-27T01:34:26
+   AccrueTime=2023-02-27T01:25:31
+   StartTime=2023-02-27T01:34:26 EndTime=2023-02-28T01:34:26 Deadline=N/A
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2023-02-27T01:34:26 Scheduler=Main
+   Partition=regular AllocNode:Sid=avicenna:1464201
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=c01
+   BatchHost=c01
+   NumNodes=1 NumCPUs=10 NumTasks=1 CPUs/Task=10 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=10,mem=128G,node=1,billing=10
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   JOB_GRES=(null)
+     Nodes=c01 CPU_IDs=10-19 Mem=131072 GRES=
+   MinCPUsNode=10 MinMemoryNode=128G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/home/angel/salmon_quant.run
+   WorkDir=/home/angel
+   StdErr=/home/angel/job.107_55.err
+   StdIn=/dev/null
+   StdOut=/home/angel/job.107_55.out
+   Power=
+
+```
+
+As you can see, the output shows information about the jobs and about the individual tasks.
 
 
 [^1]:Kurtzer, Gregory M.; Sochat, Vanessa; Bauer, Michael W. (2017). ["Singularity: Scientific Containers for Mobility of Compute"](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5426675/). PLOS ONE. 12 (5): e0177459
