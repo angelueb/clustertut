@@ -8,18 +8,18 @@
     <meta name="description" content="">
     <title>Storage available to users :: UEB cluster usage tutorial</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/clustertut/css/fontawesome-all.min.css?1678823966" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fontawesome-all.min.css?1678823966" rel="stylesheet"></noscript>
-    <link href="/clustertut/css/nucleus.css?1678823966" rel="stylesheet">
-    <link href="/clustertut/css/auto-complete.css?1678823966" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/auto-complete.css?1678823966" rel="stylesheet"></noscript>
-    <link href="/clustertut/css/perfect-scrollbar.min.css?1678823966" rel="stylesheet">
-    <link href="/clustertut/css/fonts.css?1678823966" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fonts.css?1678823966" rel="stylesheet"></noscript>
-    <link href="/clustertut/css/theme.css?1678823966" rel="stylesheet">
-    <link href="/clustertut/css/theme-learn.css?1678823966" rel="stylesheet" id="variant-style">
-    <link href="/clustertut/css/variant.css?1678823966" rel="stylesheet">
-    <link href="/clustertut/css/print.css?1678823966" rel="stylesheet" media="print">
-    <link href="/clustertut/css/ie.css?1678823966" rel="stylesheet">
-    <script src="/clustertut/js/url.js?1678823966"></script>
-    <script src="/clustertut/js/variant.js?1678823966"></script>
+    <link href="/clustertut/css/fontawesome-all.min.css?1678824932" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fontawesome-all.min.css?1678824932" rel="stylesheet"></noscript>
+    <link href="/clustertut/css/nucleus.css?1678824932" rel="stylesheet">
+    <link href="/clustertut/css/auto-complete.css?1678824932" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/auto-complete.css?1678824932" rel="stylesheet"></noscript>
+    <link href="/clustertut/css/perfect-scrollbar.min.css?1678824932" rel="stylesheet">
+    <link href="/clustertut/css/fonts.css?1678824932" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fonts.css?1678824932" rel="stylesheet"></noscript>
+    <link href="/clustertut/css/theme.css?1678824932" rel="stylesheet">
+    <link href="/clustertut/css/theme-learn.css?1678824932" rel="stylesheet" id="variant-style">
+    <link href="/clustertut/css/variant.css?1678824932" rel="stylesheet">
+    <link href="/clustertut/css/print.css?1678824932" rel="stylesheet" media="print">
+    <link href="/clustertut/css/ie.css?1678824932" rel="stylesheet">
+    <script src="/clustertut/js/url.js?1678824932"></script>
+    <script src="/clustertut/js/variant.js?1678824932"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -76,9 +76,9 @@
 <dt><code>/home/&lt;yourusername&gt;</code></dt>
 <dd>You will be given a /home directory when your account is created, and when you log in to the cluster this will be your default directory. This storage is mainly intended for storing relatively small files such as script files, source code, software files (like binaries, conda environments, singularity images, &hellip;), and other small to medium files that you need for your work on the cluster. While it is not meant to be as temporary as <code>/cscratch</code>, the storage amount available is limited on a per user basis. Administrators will monitor the <code>/home</code> disk usage, and may impose quotas depending on the storage availability.</dd>
 <dt><code>/cscratch/&lt;yourusername&gt;</code></dt>
-<dd>You will be given a /cscratch directory when your account is created. <code>/cscratch</code> is a shared space for all users. It’s designed to hold the application data that is being used (input) or produced (output) during an actual HPC operation (running a computing job). You should run your jobs using input data from your <code>/cscratch</code> directory, and direct your output files to your <code>/cscratch</code> directory. Once your computing jobs are not using or producing a set of specific data from your <code>/cscratch</code> directory anymore, it should be moved as soon as possible to your local device and removed from the cluster. Administrators may impose automatic purge of data older than a certain threshold depending on the storage usage.</dd>
+<dd>You will be given a directory in <code>/cscratch</code> when your account is created. <code>/cscratch</code> is a shared space for all users. It’s designed to hold the application data that is being used (input) or produced (output) during an actual HPC operation (running a computing job). You should run your jobs using input data from your <code>/cscratch</code> directory, and direct your output files to your <code>/cscratch</code> directory. Once your computing jobs are not using a set of data from your <code>/cscratch</code> or producing data into it anymore, this specific data should be moved as soon as possible to your local device and removed from the cluster. Administrators may impose automatic purges of data older than a certain threshold depending on the storage usage.</dd>
 </dl>
-<p>Note that the access to your <code>/cscratch/&lt;yourusername&gt;</code> directory is restricted by default to only you. This means that other users can not access any data you store in your <code>/cscratch</code> directory. But, since this directory is owned by you, you can change these restrictions if you wish, using the <code>chmod</code> command. In case you need more specific sharing permissions or you need assistance, contact the administrators.</p>
+<p>Note that the access to your <code>/cscratch/&lt;yourusername&gt;</code> directory is restricted by default to only you. This means that other users can not access any data you store in your <code>/cscratch</code> directory. But, since this directory is owned by you, you can change these restrictions if you wish, using the <code>chmod</code> command. In case you need more specific sharing permissions or some assistance, please contact the administrators.</p>
 
             <footer class="footline">
             </footer>
@@ -100,12 +100,12 @@
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="/clustertut/js/auto-complete.js?1678823966" defer></script>
-        <script src="/clustertut/js/lunr/lunr.min.js?1678823966" defer></script>
-        <script src="/clustertut/js/lunr/lunr.stemmer.support.min.js?1678823966" defer></script>
-        <script src="/clustertut/js/lunr/lunr.multi.min.js?1678823966" defer></script>
-        <script src="/clustertut/js/lunr/lunr.en.min.js?1678823966" defer></script>
-        <script src="/clustertut/js/search.js?1678823966" defer></script>
+        <script src="/clustertut/js/auto-complete.js?1678824932" defer></script>
+        <script src="/clustertut/js/lunr/lunr.min.js?1678824932" defer></script>
+        <script src="/clustertut/js/lunr/lunr.stemmer.support.min.js?1678824932" defer></script>
+        <script src="/clustertut/js/lunr/lunr.multi.min.js?1678824932" defer></script>
+        <script src="/clustertut/js/lunr/lunr.en.min.js?1678824932" defer></script>
+        <script src="/clustertut/js/search.js?1678824932" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -155,8 +155,8 @@
         </div>
       </div>
     </aside>
-    <script src="/clustertut/js/clipboard.min.js?1678823966" defer></script>
-    <script src="/clustertut/js/perfect-scrollbar.min.js?1678823966" defer></script>
-    <script src="/clustertut/js/theme.js?1678823966" defer></script>
+    <script src="/clustertut/js/clipboard.min.js?1678824932" defer></script>
+    <script src="/clustertut/js/perfect-scrollbar.min.js?1678824932" defer></script>
+    <script src="/clustertut/js/theme.js?1678824932" defer></script>
   </body>
 </html>
