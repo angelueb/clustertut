@@ -6,7 +6,7 @@
     <meta name="generator" content="Hugo 0.110.0">
     <meta name="generator" content="Relearn 5.11.2+tip">
     <meta name="description" content="">
-    <title>GPU job: RL-Medical with conda :: UEB cluster usage tutorial</title>
+    <title>Storage available to users :: UEB cluster usage tutorial</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
     <link href="/clustertut/css/fontawesome-all.min.css?1678821706" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fontawesome-all.min.css?1678821706" rel="stylesheet"></noscript>
     <link href="/clustertut/css/nucleus.css?1678821706" rel="stylesheet">
@@ -38,17 +38,17 @@
       window.variants && variants.init( [ 'learn' ] );
     </script>
   </head>
-  <body class="mobile-support html" data-url="/clustertut/practical-examples/example_gpu-conda/index.html">
+  <body class="mobile-support html" data-url="/clustertut/basics/storage_users/index.html">
     <div id="body" class="default-animation">
       <div id="sidebar-overlay"></div>
       <div id="toc-overlay"></div>
       <nav id="topbar" class="highlightable">
         <div>
           <div class="navigation">
-            <span class="nav nav-next topbar-link"><i class="fa fa-chevron-right fa-fw"></i></span>
+            <a class="nav nav-next topbar-link" href="/clustertut/practical-examples/index.html" title="Practical Examples (&#129106;)"><i class="fas fa-chevron-right fa-fw"></i></a>
           </div>
           <div class="navigation">
-            <a class="nav nav-prev topbar-link" href="/clustertut/practical-examples/example_singularity/index.html" title="Singularity: Quasi-mapping RNA-Seq quantification (&#129104;)"><i class="fas fa-chevron-left fa-fw"></i></a>
+            <a class="nav nav-prev topbar-link" href="/clustertut/basics/connecting/index.html" title="Accessing the cluster (&#129104;)"><i class="fas fa-chevron-left fa-fw"></i></a>
           </div>
           <div id="breadcrumbs">
             <span id="sidebar-toggle-span">
@@ -56,8 +56,8 @@
             </span>
             <ol class="links" itemscope itemtype="http://schema.org/BreadcrumbList">
               <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/clustertut/index.html"><span itemprop="name">UEB Cluster Basic Tutorial</span></a><meta itemprop="position" content="1"> > </li>
-              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/clustertut/practical-examples/index.html"><span itemprop="name">Practical Examples</span></a><meta itemprop="position" content="2"> > </li>
-              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">GPU job: RL-Medical with conda</span><meta itemprop="position" content="3"></li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/clustertut/basics/index.html"><span itemprop="name">Basics</span></a><meta itemprop="position" content="2"> > </li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Storage available to users</span><meta itemprop="position" content="3"></li>
             </ol>
           </div>
         </div>
@@ -67,9 +67,17 @@
           <div id="head-tags">
           </div>
           <article class="default">
-<h1 id="gpu-job-rl-medical-with-conda">GPU job: RL-Medical with conda</h1>
+<h1 id="storage-available-to-users">Storage available to users</h1>
 
-<p>GPU job: RL-Medical with conda</p>
+<p>Please, keep in mind that the cluster is a computing system, not a storage-oriented system. The storage capacity of the cluster should be only used for purposes directly related to running computing jobs. This means that, in general, you should use only the amount of storage you need for running your computing jobs, and only during the period of time you (reasonably) need to run them. For instance, the cluster is not intended to be used as a long term storage of your data or serve as a backup system of any kind for your data.</p>
+<p>There are two main storage systems available to users in the cluster, /home and /cscratch. Since their purposes are rather different, it is important that you understand which one you should be using, depending on the amount and kind of your data.</p>
+<p>In short, /cscratch is intended as a temporary storage for the input and output data of your computing jobs in the cluster. As such, you should use it only for the period you need to run the related specific jobs, and remove the data as soon as it&rsquo;s not needed anymore (that is, not consumed as input or produced as output).</p>
+<dl>
+<dt><code>/home/&lt;yourusername&gt;</code></dt>
+<dd>You are given a /home directory automatically when your Discovery account is created. This storage is mainly intended for storing relatively small files such as script files, source code, software installation files, and other small files that you need for your work on Discovery. While it is permanent storage that is backed up and replicated, it is not performant storage. It also has a small quota, so you should frequently check your space usage (use a command such as du -h /home/<!-- raw HTML omitted --> where <!-- raw HTML omitted --> is your user name, to see the total space usage). For running jobs and directing output files, you should use your /scratch directory.</dd>
+<dt><code>/cscratch/&lt;yourusername&gt;</code></dt>
+<dd>You are given a /scratch directory automatically when your Discovery account is created. Scratch is a shared space for all users. The total storage available is 1.8PB; however, while this is performant storage, it is for temporary use only. It is not backed up. Data on /scratch should be moved as soon as possible to another location for permanent storage. You should run your jobs from /scratch and direct your output files to your /scratch directory for best performance, but it is best practice to move your files off of scratch to avoid any potential data loss.</dd>
+</dl>
 
             <footer class="footline">
             </footer>
@@ -100,13 +108,13 @@
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
-          <li data-nav-id="/clustertut/basics/index.html" class="dd-item"><a href="/clustertut/basics/index.html">Basics</a><ul id="subsections-3494ad44d160b070fd31576fe4a3841e">
+          <li data-nav-id="/clustertut/basics/index.html" class="dd-item parent"><a href="/clustertut/basics/index.html">Basics</a><ul id="subsections-3494ad44d160b070fd31576fe4a3841e">
           <li data-nav-id="/clustertut/basics/connecting/index.html" class="dd-item"><a href="/clustertut/basics/connecting/index.html">Accessing the cluster</a></li>
-          <li data-nav-id="/clustertut/basics/storage_users/index.html" class="dd-item"><a href="/clustertut/basics/storage_users/index.html">Storage available to users</a></li></ul></li>
-          <li data-nav-id="/clustertut/practical-examples/index.html" class="dd-item parent"><a href="/clustertut/practical-examples/index.html">Practical Examples</a><ul id="subsections-a70580eb17b66487329cb6446056eecb">
+          <li data-nav-id="/clustertut/basics/storage_users/index.html" class="dd-item active"><a href="/clustertut/basics/storage_users/index.html">Storage available to users</a></li></ul></li>
+          <li data-nav-id="/clustertut/practical-examples/index.html" class="dd-item"><a href="/clustertut/practical-examples/index.html">Practical Examples</a><ul id="subsections-a70580eb17b66487329cb6446056eecb">
           <li data-nav-id="/clustertut/practical-examples/example_pre-installed/index.html" class="dd-item"><a href="/clustertut/practical-examples/example_pre-installed/index.html">Pre-installed software: RNA-Seq QC</a></li>
           <li data-nav-id="/clustertut/practical-examples/example_singularity/index.html" class="dd-item"><a href="/clustertut/practical-examples/example_singularity/index.html">Singularity: Quasi-mapping RNA-Seq quantification</a></li>
-          <li data-nav-id="/clustertut/practical-examples/example_gpu-conda/index.html" class="dd-item active"><a href="/clustertut/practical-examples/example_gpu-conda/index.html">GPU job: RL-Medical with conda</a></li></ul></li>
+          <li data-nav-id="/clustertut/practical-examples/example_gpu-conda/index.html" class="dd-item"><a href="/clustertut/practical-examples/example_gpu-conda/index.html">GPU job: RL-Medical with conda</a></li></ul></li>
         </ul>
         <div class="footermargin footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showFooter"></div>
         <hr class="default-animation footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showFooter">

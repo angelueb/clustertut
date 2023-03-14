@@ -6,7 +6,7 @@
     <meta name="generator" content="Hugo 0.110.0">
     <meta name="generator" content="Relearn 5.11.2+tip">
     <meta name="description" content="">
-    <title>GPU job: RL-Medical with conda :: UEB cluster usage tutorial</title>
+    <title>Accessing the cluster :: UEB cluster usage tutorial</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
     <link href="/clustertut/css/fontawesome-all.min.css?1678821706" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fontawesome-all.min.css?1678821706" rel="stylesheet"></noscript>
     <link href="/clustertut/css/nucleus.css?1678821706" rel="stylesheet">
@@ -38,27 +38,37 @@
       window.variants && variants.init( [ 'learn' ] );
     </script>
   </head>
-  <body class="mobile-support html" data-url="/clustertut/practical-examples/example_gpu-conda/index.html">
+  <body class="mobile-support html" data-url="/clustertut/basics/connecting/index.html">
     <div id="body" class="default-animation">
       <div id="sidebar-overlay"></div>
       <div id="toc-overlay"></div>
       <nav id="topbar" class="highlightable">
         <div>
           <div class="navigation">
-            <span class="nav nav-next topbar-link"><i class="fa fa-chevron-right fa-fw"></i></span>
+            <a class="nav nav-next topbar-link" href="/clustertut/basics/storage_users/index.html" title="Storage available to users (&#129106;)"><i class="fas fa-chevron-right fa-fw"></i></a>
           </div>
           <div class="navigation">
-            <a class="nav nav-prev topbar-link" href="/clustertut/practical-examples/example_singularity/index.html" title="Singularity: Quasi-mapping RNA-Seq quantification (&#129104;)"><i class="fas fa-chevron-left fa-fw"></i></a>
+            <a class="nav nav-prev topbar-link" href="/clustertut/basics/index.html" title="Basics (&#129104;)"><i class="fas fa-chevron-left fa-fw"></i></a>
           </div>
           <div id="breadcrumbs">
             <span id="sidebar-toggle-span">
               <a href="#" id="sidebar-toggle" class="topbar-link" title='Menu (CTRL+ALT+n)'><i class="fas fa-bars fa-fw"></i></a>
             </span>
+            <span id="toc-menu" title='Table of Contents (CTRL+ALT+t)'><i class="fas fa-list-alt fa-fw"></i></span>
             <ol class="links" itemscope itemtype="http://schema.org/BreadcrumbList">
               <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/clustertut/index.html"><span itemprop="name">UEB Cluster Basic Tutorial</span></a><meta itemprop="position" content="1"> > </li>
-              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/clustertut/practical-examples/index.html"><span itemprop="name">Practical Examples</span></a><meta itemprop="position" content="2"> > </li>
-              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">GPU job: RL-Medical with conda</span><meta itemprop="position" content="3"></li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/clustertut/basics/index.html"><span itemprop="name">Basics</span></a><meta itemprop="position" content="2"> > </li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Accessing the cluster</span><meta itemprop="position" content="3"></li>
             </ol>
+          </div>
+          <div class="default-animation progress">
+            <div class="toc-wrapper"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#getting-an-account">Getting an account</a></li>
+    <li><a href="#connecting-to-the-cluster">Connecting to the cluster</a></li>
+  </ul>
+</nav>
+            </div>
           </div>
         </div>
       </nav>
@@ -67,9 +77,15 @@
           <div id="head-tags">
           </div>
           <article class="default">
-<h1 id="gpu-job-rl-medical-with-conda">GPU job: RL-Medical with conda</h1>
+<h1 id="accessing-the-cluster">Accessing the cluster</h1>
 
-<p>GPU job: RL-Medical with conda</p>
+<h2 id="getting-an-account">Getting an account</h2>
+<p>You must first have an account before you can access the cluster. Please contact the administrators for detailed information on how to get your account. If you are eligible, you will receive the specific details to access the cluster, including your username and password.</p>
+<h2 id="connecting-to-the-cluster">Connecting to the cluster</h2>
+<p>Once you have your account ready, you will need a secure shell program to log in to the cluster. Keep in mind that ssh based connections are needed both for console (command-line) and for file transfer sessions.</p>
+<p>If you are on a Mac or linux machine, you already have a command line ssh client available on your system. Recent versions of Windows can also use the Windows Linux Subsystem to get a command-line ssh client. Alternatively, there are free and open-source graphical ssh clients available (for instance, PuTTY for Windows).</p>
+<p>Please note that regardless your ssh client, once you connect to the cluster you&rsquo;ll be in a linux command-line environment, from which you&rsquo;ll submit your computing jobs. This means you need a minimum working knowledge of the linux command-line shell environment (which is bash by default).</p>
+<p>As for file transfer, as noted above, an ssh-based connection is needed, and you can perform file transfers from your workstation to the cluster using any tool that let you establish an ssh connection. For instance, scp on you command line, or FileZilla if you prefer a graphical interface program.</p>
 
             <footer class="footline">
             </footer>
@@ -100,13 +116,13 @@
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
-          <li data-nav-id="/clustertut/basics/index.html" class="dd-item"><a href="/clustertut/basics/index.html">Basics</a><ul id="subsections-3494ad44d160b070fd31576fe4a3841e">
-          <li data-nav-id="/clustertut/basics/connecting/index.html" class="dd-item"><a href="/clustertut/basics/connecting/index.html">Accessing the cluster</a></li>
+          <li data-nav-id="/clustertut/basics/index.html" class="dd-item parent"><a href="/clustertut/basics/index.html">Basics</a><ul id="subsections-3494ad44d160b070fd31576fe4a3841e">
+          <li data-nav-id="/clustertut/basics/connecting/index.html" class="dd-item active"><a href="/clustertut/basics/connecting/index.html">Accessing the cluster</a></li>
           <li data-nav-id="/clustertut/basics/storage_users/index.html" class="dd-item"><a href="/clustertut/basics/storage_users/index.html">Storage available to users</a></li></ul></li>
-          <li data-nav-id="/clustertut/practical-examples/index.html" class="dd-item parent"><a href="/clustertut/practical-examples/index.html">Practical Examples</a><ul id="subsections-a70580eb17b66487329cb6446056eecb">
+          <li data-nav-id="/clustertut/practical-examples/index.html" class="dd-item"><a href="/clustertut/practical-examples/index.html">Practical Examples</a><ul id="subsections-a70580eb17b66487329cb6446056eecb">
           <li data-nav-id="/clustertut/practical-examples/example_pre-installed/index.html" class="dd-item"><a href="/clustertut/practical-examples/example_pre-installed/index.html">Pre-installed software: RNA-Seq QC</a></li>
           <li data-nav-id="/clustertut/practical-examples/example_singularity/index.html" class="dd-item"><a href="/clustertut/practical-examples/example_singularity/index.html">Singularity: Quasi-mapping RNA-Seq quantification</a></li>
-          <li data-nav-id="/clustertut/practical-examples/example_gpu-conda/index.html" class="dd-item active"><a href="/clustertut/practical-examples/example_gpu-conda/index.html">GPU job: RL-Medical with conda</a></li></ul></li>
+          <li data-nav-id="/clustertut/practical-examples/example_gpu-conda/index.html" class="dd-item"><a href="/clustertut/practical-examples/example_gpu-conda/index.html">GPU job: RL-Medical with conda</a></li></ul></li>
         </ul>
         <div class="footermargin footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showFooter"></div>
         <hr class="default-animation footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showFooter">

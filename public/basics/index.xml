@@ -5,6 +5,22 @@
     <link>https://angelueb.github.io/clustertut/basics/index.html</link>
     <description>Recent content in Basics on UEB cluster usage tutorial</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://angelueb.github.io/clustertut/basics/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Sun, 26 Feb 2023 15:19:13 +0100</lastBuildDate><atom:link href="https://angelueb.github.io/clustertut/basics/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Accessing the cluster</title>
+      <link>https://angelueb.github.io/clustertut/basics/connecting/index.html</link>
+      <pubDate>Sun, 26 Feb 2023 15:19:13 +0100</pubDate>
+      <guid>https://angelueb.github.io/clustertut/basics/connecting/index.html</guid>
+      <description>Getting an account You must first have an account before you can access the cluster. Please contact the administrators for detailed information on how to get your account. If you are eligible, you will receive the specific details to access the cluster, including your username and password.
+Connecting to the cluster Once you have your account ready, you will need a secure shell program to log in to the cluster. Keep in mind that ssh based connections are needed both for console (command-line) and for file transfer sessions.</description>
+    </item>
+    <item>
+      <title>Storage available to users</title>
+      <link>https://angelueb.github.io/clustertut/basics/storage_users/index.html</link>
+      <pubDate>Sun, 26 Feb 2023 15:19:13 +0100</pubDate>
+      <guid>https://angelueb.github.io/clustertut/basics/storage_users/index.html</guid>
+      <description>Please, keep in mind that the cluster is a computing system, not a storage-oriented system. The storage capacity of the cluster should be only used for purposes directly related to running computing jobs. This means that, in general, you should use only the amount of storage you need for running your computing jobs, and only during the period of time you (reasonably) need to run them. For instance, the cluster is not intended to be used as a long term storage of your data or serve as a backup system of any kind for your data.</description>
+    </item>
   </channel>
 </rss>
