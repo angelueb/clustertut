@@ -188,7 +188,7 @@ conda deactivate
 ```
 ### Submitting and monitoring the SLURM job
 
-Now let's submit our job to SLURM using the job script we've just created, with the **[`sbatch`](https://slurm.schedmd.com/sbatch.html)** command:
+Now let's submit our job to SLURM using the job script we've just created, with the **[sbatch](https://slurm.schedmd.com/sbatch.html)** command:
 
 ```bash
 [angel@avicenna ~]$ sbatch rl-medical_train.run
@@ -253,7 +253,7 @@ JobId=208 JobName=rlmedical-train01
    TresPerNode=gres:gpu:1
 ```
 
-Additionally, we can get monitoring information of the GPU usage with the **[`nvidia-smi`](https://developer.nvidia.com/nvidia-system-management-interface)** tool. We can use the **[`srun`](https://slurm.schedmd.com/srun.html)** command (which allows us to submit jobs to SLURM interactively) to attach the ID of our job to `nvidia-smi`:
+Additionally, we can get monitoring information of the GPU usage with the **[nvidia-smi](https://developer.nvidia.com/nvidia-system-management-interface)** tool. We can use the **[srun](https://slurm.schedmd.com/srun.html)** command (which allows us to submit jobs to SLURM interactively) to attach the ID of our job to `nvidia-smi`:
 
 ```bash
 [angel@avicenna ~]$ srun --jobid 208 nvidia-smi
