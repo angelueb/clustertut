@@ -22,5 +22,15 @@ Connecting to the cluster Once you have your account ready, you will need a secu
       <guid>https://angelueb.github.io/clustertut/basics/storage_users/index.html</guid>
       <description>Please, keep in mind that the cluster is a computing system, not a storage-oriented system. The storage capacity of the cluster should be only used for purposes directly related to running computing jobs. This means that, in general, you should use only the amount of storage you need for running your computing jobs, and only during the period of time you (reasonably) need to run them. For instance, the cluster is not intended to be used as a long term storage of your data or serve as a backup system of any kind for your data.</description>
     </item>
+    <item>
+      <title>SLURM basics</title>
+      <link>https://angelueb.github.io/clustertut/basics/slum_basics/index.html</link>
+      <pubDate>Sun, 26 Feb 2023 15:19:13 +0100</pubDate>
+      <guid>https://angelueb.github.io/clustertut/basics/slum_basics/index.html</guid>
+      <description>Some SLURM basics https://slurm.schedmd.com/
+https://slurm.schedmd.com/overview.html
+https://slurm.schedmd.com/quickstart.html
+https://slurm.schedmd.com/quickstart.html#commands</description>
+    </item>
   </channel>
 </rss>

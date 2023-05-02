@@ -6,7 +6,7 @@
     <meta name="generator" content="Hugo 0.110.0">
     <meta name="generator" content="Relearn 5.11.2+tip">
     <meta name="description" content="">
-    <title>Pre-installed software: RNA-Seq QC :: UEB cluster usage tutorial</title>
+    <title>SLURM basics :: UEB cluster usage tutorial</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
     <link href="/clustertut/css/fontawesome-all.min.css?1683060113" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fontawesome-all.min.css?1683060113" rel="stylesheet"></noscript>
     <link href="/clustertut/css/nucleus.css?1683060113" rel="stylesheet">
@@ -38,27 +38,36 @@
       window.variants && variants.init( [ 'learn' ] );
     </script>
   </head>
-  <body class="mobile-support html" data-url="/clustertut/practical-examples/example_pre-installed/index.html">
+  <body class="mobile-support html" data-url="/clustertut/basics/slum_basics/index.html">
     <div id="body" class="default-animation">
       <div id="sidebar-overlay"></div>
       <div id="toc-overlay"></div>
       <nav id="topbar" class="highlightable">
         <div>
           <div class="navigation">
-            <a class="nav nav-next topbar-link" href="/clustertut/practical-examples/example_singularity/index.html" title="Singularity: Quasi-mapping RNA-Seq quantification (&#129106;)"><i class="fas fa-chevron-right fa-fw"></i></a>
+            <a class="nav nav-next topbar-link" href="/clustertut/practical-examples/index.html" title="Practical Examples (&#129106;)"><i class="fas fa-chevron-right fa-fw"></i></a>
           </div>
           <div class="navigation">
-            <a class="nav nav-prev topbar-link" href="/clustertut/practical-examples/index.html" title="Practical Examples (&#129104;)"><i class="fas fa-chevron-left fa-fw"></i></a>
+            <a class="nav nav-prev topbar-link" href="/clustertut/basics/storage_users/index.html" title="Storage available to users (&#129104;)"><i class="fas fa-chevron-left fa-fw"></i></a>
           </div>
           <div id="breadcrumbs">
             <span id="sidebar-toggle-span">
               <a href="#" id="sidebar-toggle" class="topbar-link" title='Menu (CTRL+ALT+n)'><i class="fas fa-bars fa-fw"></i></a>
             </span>
+            <span id="toc-menu" title='Table of Contents (CTRL+ALT+t)'><i class="fas fa-list-alt fa-fw"></i></span>
             <ol class="links" itemscope itemtype="http://schema.org/BreadcrumbList">
               <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/clustertut/index.html"><span itemprop="name">UEB Cluster Basic Tutorial</span></a><meta itemprop="position" content="1"> > </li>
-              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/clustertut/practical-examples/index.html"><span itemprop="name">Practical Examples</span></a><meta itemprop="position" content="2"> > </li>
-              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Pre-installed software: RNA-Seq QC</span><meta itemprop="position" content="3"></li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/clustertut/basics/index.html"><span itemprop="name">Basics</span></a><meta itemprop="position" content="2"> > </li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">SLURM basics</span><meta itemprop="position" content="3"></li>
             </ol>
+          </div>
+          <div class="default-animation progress">
+            <div class="toc-wrapper"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#some-slurm-basics">Some SLURM basics</a></li>
+  </ul>
+</nav>
+            </div>
           </div>
         </div>
       </nav>
@@ -67,9 +76,13 @@
           <div id="head-tags">
           </div>
           <article class="default">
-<h1 id="pre-installed-software-rna-seq-qc">Pre-installed software: RNA-Seq QC</h1>
+<h1 id="slurm-basics">SLURM basics</h1>
 
-<p>Pre-installed software: RNA-Seq QC</p>
+<h2 id="some-slurm-basics">Some SLURM basics</h2>
+<p><a href="https://slurm.schedmd.com/" target="_blank">https://slurm.schedmd.com/</a></p>
+<p><a href="https://slurm.schedmd.com/overview.html" target="_blank">https://slurm.schedmd.com/overview.html</a></p>
+<p><a href="https://slurm.schedmd.com/quickstart.html" target="_blank">https://slurm.schedmd.com/quickstart.html</a></p>
+<p><a href="https://slurm.schedmd.com/quickstart.html#commands" target="_blank">https://slurm.schedmd.com/quickstart.html#commands</a></p>
 
             <footer class="footline">
             </footer>
@@ -100,12 +113,12 @@
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
-          <li data-nav-id="/clustertut/basics/index.html" class="dd-item"><a href="/clustertut/basics/index.html">Basics</a><ul id="subsections-3494ad44d160b070fd31576fe4a3841e">
+          <li data-nav-id="/clustertut/basics/index.html" class="dd-item parent"><a href="/clustertut/basics/index.html">Basics</a><ul id="subsections-3494ad44d160b070fd31576fe4a3841e">
           <li data-nav-id="/clustertut/basics/connecting/index.html" class="dd-item"><a href="/clustertut/basics/connecting/index.html">Accessing the cluster</a></li>
           <li data-nav-id="/clustertut/basics/storage_users/index.html" class="dd-item"><a href="/clustertut/basics/storage_users/index.html">Storage available to users</a></li>
-          <li data-nav-id="/clustertut/basics/slum_basics/index.html" class="dd-item"><a href="/clustertut/basics/slum_basics/index.html">SLURM basics</a></li></ul></li>
-          <li data-nav-id="/clustertut/practical-examples/index.html" class="dd-item parent"><a href="/clustertut/practical-examples/index.html">Practical Examples</a><ul id="subsections-a70580eb17b66487329cb6446056eecb">
-          <li data-nav-id="/clustertut/practical-examples/example_pre-installed/index.html" class="dd-item active"><a href="/clustertut/practical-examples/example_pre-installed/index.html">Pre-installed software: RNA-Seq QC</a></li>
+          <li data-nav-id="/clustertut/basics/slum_basics/index.html" class="dd-item active"><a href="/clustertut/basics/slum_basics/index.html">SLURM basics</a></li></ul></li>
+          <li data-nav-id="/clustertut/practical-examples/index.html" class="dd-item"><a href="/clustertut/practical-examples/index.html">Practical Examples</a><ul id="subsections-a70580eb17b66487329cb6446056eecb">
+          <li data-nav-id="/clustertut/practical-examples/example_pre-installed/index.html" class="dd-item"><a href="/clustertut/practical-examples/example_pre-installed/index.html">Pre-installed software: RNA-Seq QC</a></li>
           <li data-nav-id="/clustertut/practical-examples/example_singularity/index.html" class="dd-item"><a href="/clustertut/practical-examples/example_singularity/index.html">Singularity: Quasi-mapping RNA-Seq quantification</a></li>
           <li data-nav-id="/clustertut/practical-examples/example_gpu-conda/index.html" class="dd-item"><a href="/clustertut/practical-examples/example_gpu-conda/index.html">GPU job: RL-Medical with conda</a></li></ul></li>
         </ul>
