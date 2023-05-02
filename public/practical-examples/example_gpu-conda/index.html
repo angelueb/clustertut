@@ -8,18 +8,18 @@
     <meta name="description" content="">
     <title>GPU job: RL-Medical with conda :: UEB cluster usage tutorial</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/clustertut/css/fontawesome-all.min.css?1683052188" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fontawesome-all.min.css?1683052188" rel="stylesheet"></noscript>
-    <link href="/clustertut/css/nucleus.css?1683052188" rel="stylesheet">
-    <link href="/clustertut/css/auto-complete.css?1683052188" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/auto-complete.css?1683052188" rel="stylesheet"></noscript>
-    <link href="/clustertut/css/perfect-scrollbar.min.css?1683052188" rel="stylesheet">
-    <link href="/clustertut/css/fonts.css?1683052188" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fonts.css?1683052188" rel="stylesheet"></noscript>
-    <link href="/clustertut/css/theme.css?1683052188" rel="stylesheet">
-    <link href="/clustertut/css/theme-learn.css?1683052188" rel="stylesheet" id="variant-style">
-    <link href="/clustertut/css/variant.css?1683052188" rel="stylesheet">
-    <link href="/clustertut/css/print.css?1683052188" rel="stylesheet" media="print">
-    <link href="/clustertut/css/ie.css?1683052188" rel="stylesheet">
-    <script src="/clustertut/js/url.js?1683052188"></script>
-    <script src="/clustertut/js/variant.js?1683052188"></script>
+    <link href="/clustertut/css/fontawesome-all.min.css?1683052781" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fontawesome-all.min.css?1683052781" rel="stylesheet"></noscript>
+    <link href="/clustertut/css/nucleus.css?1683052781" rel="stylesheet">
+    <link href="/clustertut/css/auto-complete.css?1683052781" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/auto-complete.css?1683052781" rel="stylesheet"></noscript>
+    <link href="/clustertut/css/perfect-scrollbar.min.css?1683052781" rel="stylesheet">
+    <link href="/clustertut/css/fonts.css?1683052781" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fonts.css?1683052781" rel="stylesheet"></noscript>
+    <link href="/clustertut/css/theme.css?1683052781" rel="stylesheet">
+    <link href="/clustertut/css/theme-learn.css?1683052781" rel="stylesheet" id="variant-style">
+    <link href="/clustertut/css/variant.css?1683052781" rel="stylesheet">
+    <link href="/clustertut/css/print.css?1683052781" rel="stylesheet" media="print">
+    <link href="/clustertut/css/ie.css?1683052781" rel="stylesheet">
+    <script src="/clustertut/js/url.js?1683052781"></script>
+    <script src="/clustertut/js/variant.js?1683052781"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -144,7 +144,7 @@
 </span></span><span style="display:flex;"><span>PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
 </span></span><span style="display:flex;"><span>regular*     up 1-00:00:00      <span style="color:#ae81ff">1</span>   idle c01
 </span></span><span style="display:flex;"><span>gpgpu        up 1-00:00:00      <span style="color:#ae81ff">1</span>   idle g01
-</span></span></code></pre></div><p>In our case we need to use the <code>gpgpu</code> patition, since its nodes have GPU hardware resources available for SLURM to use. We can get more specific information about the <code>g01</code> node, which is a member of the <code>gpgpu</code>partition:</p>
+</span></span></code></pre></div><p>In our case we need to use the <code>gpgpu</code> partition, since its nodes have GPU hardware resources available for SLURM to use. We can get more specific information about the <code>g01</code> node, which is a member of the <code>gpgpu</code>partition:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ scontrol show node g01
 </span></span><span style="display:flex;"><span>NodeName<span style="color:#f92672">=</span>g01 Arch<span style="color:#f92672">=</span>x86_64 CoresPerSocket<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 </span></span><span style="display:flex;"><span>   CPUAlloc<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> CPUEfctv<span style="color:#f92672">=</span><span style="color:#ae81ff">24</span> CPUTot<span style="color:#f92672">=</span><span style="color:#ae81ff">24</span> CPULoad<span style="color:#f92672">=</span>0.00
@@ -165,15 +165,14 @@
 </span></span><span style="display:flex;"><span>   ExtSensorsJoules<span style="color:#f92672">=</span>n/s ExtSensorsWatts<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> ExtSensorsTemp<span style="color:#f92672">=</span>n/s
 </span></span></code></pre></div><p>Note the <code>Gres=gpu:ampere:2(S:0)</code> line, which means that this particular node has 2 GPUs (in this case, a description of the type, <code>ampere</code>, is included).</p>
 <h3 id="creating-a-job-submission-file">Creating a job submission file</h3>
-<p>Essentially, there are two ways of submitting computing jobs to SLURm, an interactive and a batch mode. The latter is more flexibble and les error-prone, specially for less experienced users, so it&rsquo;s the way we&rsquo;re going to use for this example.</p>
-<p>First, we need to create a job script, which is simply a plain text file containing some SLURM directives and parameters, including the actual tool to run. You can create this file using any plain text editor. You can use **<a href="https://nano-editor.org/" target="_blank">nano</a> or **(vim)[https://www.vim.org/] for instance, directly from the command line interface while you&rsquo;re connected to the cluster. Also, you can create it on your local computer and then transfer it to cluster.</p>
-<p>For example, to create job script with the nano editor named &lsquo;rl-medical_train.run&rsquo; and start editing it:</p>
+<p>Essentially, there are two ways of submitting computing jobs to SLURM, an interactive and a batch mode. The latter is more flexible and less error-prone, specially for less experienced users, so it&rsquo;s the way we&rsquo;re going to use for this example.</p>
+<p>First, we need to create a job script, which is simply a plain text file containing some SLURM directives and parameters and the actual command of the tool (or tools) to run. You can create this file using any plain text editor. You can use **<a href="https://nano-editor.org/" target="_blank">nano</a> or **(vim)[https://www.vim.org/] for instance, directly from the command line interface while you&rsquo;re connected to the cluster. Also, you can create it on your local computer and then transfer it to cluster.</p>
+<p>For example, to create job script with the nano editor named <code>rl-medical_train.run</code> and start editing it:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ nano rl-medical_train.run
-</span></span></code></pre></div><p>Please, refer to the **(nano)[https://nano-editor.org/docs.php] documentation to learn how to use the editor if you are not familiar with it (remember that you can use any plain text editor)</p>
+</span></span></code></pre></div><p>Please, refer to the **(nano)[https://nano-editor.org/docs.php] documentation to learn how to use the editor if you are not familiar with it (remember that you can use any other plain text editor)</p>
 <p>In our example, we are going to use the following contents for our job script:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  GNU nano 2.9.8                                      rl-medical_train.run                                                 
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash</span>
-</span></span><span style="display:flex;"><span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">##This is an example of a simple GPU job</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH -p gpgpu       # partition name</span>
@@ -181,7 +180,9 @@
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH --mem 30G        # RAM requested</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH --gres=gpu:1     # Requesting to use GPU resources, and how many</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH --job-name rlmedical-train01                # Job name</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH -o job.%j.out               # File to which standard out will be written (%j is replaced automatically by the SLUR$#SBATCH -e job.%j.err               # File to which standard err will be written (%j is replaced automatically by the SLUR$</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH -o job.%j.out               # File to which standard out will be written (%j is replaced automatically by the SLURM&#39;s job ID)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH -e job.%j.err               # File to which standard err will be written (%j is replaced automatically by the SLURM&#39;s job ID)</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">## Base directory for job input and output data (on /cscratch)</span>
 </span></span><span style="display:flex;"><span>BASEDIR<span style="color:#f92672">=</span>/cscratch/angel/tutorial/rl-medical/src
 </span></span><span style="display:flex;"><span>
@@ -194,22 +195,8 @@
 </span></span><span style="display:flex;"><span>conda activate rl-medical
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">## Run RL-Medical in &#39;train&#39; mode and exit the conda environment</span>
-</span></span><span style="display:flex;"><span>python <span style="color:#e6db74">${</span>BASEDIR<span style="color:#e6db74">}</span>/DQN.py --task train --memory_size <span style="color:#ae81ff">30000</span> --init_memory_size <span style="color:#ae81ff">20000</span> --files IMGFILES LANDMARKFILES --model_$conda deactivate
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                                                     <span style="color:#f92672">[</span> Read <span style="color:#ae81ff">28</span> lines <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>^G Get Help    ^O Write Out   ^W Where Is    ^K Cut Text    ^J Justify     ^C Cur Pos     M-U Undo       M-A Mark Text
-</span></span><span style="display:flex;"><span>^X Exit        ^R Read File   ^<span style="color:#ae81ff">\ </span>Replace     ^U Uncut Text  ^T To Linter   ^_ Go To Line  M-E Redo       M-6 Copy Text
+</span></span><span style="display:flex;"><span>python <span style="color:#e6db74">${</span>BASEDIR<span style="color:#e6db74">}</span>/DQN.py --task train --memory_size <span style="color:#ae81ff">30000</span> --init_memory_size <span style="color:#ae81ff">20000</span> --files IMGFILES LANDMARKFILES --model_name CommNet --file_type brain --landmarks <span style="color:#ae81ff">13</span> <span style="color:#ae81ff">14</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> --multiscale --viz <span style="color:#ae81ff">0</span> --train_freq <span style="color:#ae81ff">50</span> --write
+</span></span><span style="display:flex;"><span>conda deactivate
 </span></span></code></pre></div>
             <footer class="footline">
             </footer>
@@ -231,12 +218,12 @@
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="/clustertut/js/auto-complete.js?1683052188" defer></script>
-        <script src="/clustertut/js/lunr/lunr.min.js?1683052188" defer></script>
-        <script src="/clustertut/js/lunr/lunr.stemmer.support.min.js?1683052188" defer></script>
-        <script src="/clustertut/js/lunr/lunr.multi.min.js?1683052188" defer></script>
-        <script src="/clustertut/js/lunr/lunr.en.min.js?1683052188" defer></script>
-        <script src="/clustertut/js/search.js?1683052188" defer></script>
+        <script src="/clustertut/js/auto-complete.js?1683052781" defer></script>
+        <script src="/clustertut/js/lunr/lunr.min.js?1683052781" defer></script>
+        <script src="/clustertut/js/lunr/lunr.stemmer.support.min.js?1683052781" defer></script>
+        <script src="/clustertut/js/lunr/lunr.multi.min.js?1683052781" defer></script>
+        <script src="/clustertut/js/lunr/lunr.en.min.js?1683052781" defer></script>
+        <script src="/clustertut/js/search.js?1683052781" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -286,8 +273,8 @@
         </div>
       </div>
     </aside>
-    <script src="/clustertut/js/clipboard.min.js?1683052188" defer></script>
-    <script src="/clustertut/js/perfect-scrollbar.min.js?1683052188" defer></script>
-    <script src="/clustertut/js/theme.js?1683052188" defer></script>
+    <script src="/clustertut/js/clipboard.min.js?1683052781" defer></script>
+    <script src="/clustertut/js/perfect-scrollbar.min.js?1683052781" defer></script>
+    <script src="/clustertut/js/theme.js?1683052781" defer></script>
   </body>
 </html>

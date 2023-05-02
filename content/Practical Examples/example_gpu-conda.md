@@ -107,7 +107,7 @@ regular*     up 1-00:00:00      1   idle c01
 gpgpu        up 1-00:00:00      1   idle g01
 ```
 
-In our case we need to use the `gpgpu` patition, since its nodes have GPU hardware resources available for SLURM to use. We can get more specific information about the `g01` node, which is a member of the `gpgpu`partition:
+In our case we need to use the `gpgpu` partition, since its nodes have GPU hardware resources available for SLURM to use. We can get more specific information about the `g01` node, which is a member of the `gpgpu`partition:
 
 ```bash
 [angel@avicenna ~]$ scontrol show node g01
@@ -134,23 +134,22 @@ Note the `Gres=gpu:ampere:2(S:0)` line, which means that this particular node ha
 
 ### Creating a job submission file
 
-Essentially, there are two ways of submitting computing jobs to SLURm, an interactive and a batch mode. The latter is more flexibble and les error-prone, specially for less experienced users, so it's the way we're going to use for this example.
+Essentially, there are two ways of submitting computing jobs to SLURM, an interactive and a batch mode. The latter is more flexible and less error-prone, specially for less experienced users, so it's the way we're going to use for this example.
 
-First, we need to create a job script, which is simply a plain text file containing some SLURM directives and parameters, including the actual tool to run. You can create this file using any plain text editor. You can use **[nano](https://nano-editor.org/) or **(vim)[https://www.vim.org/] for instance, directly from the command line interface while you're connected to the cluster. Also, you can create it on your local computer and then transfer it to cluster.
+First, we need to create a job script, which is simply a plain text file containing some SLURM directives and parameters and the actual command of the tool (or tools) to run. You can create this file using any plain text editor. You can use **[nano](https://nano-editor.org/) or **(vim)[https://www.vim.org/] for instance, directly from the command line interface while you're connected to the cluster. Also, you can create it on your local computer and then transfer it to cluster.
 
-For example, to create job script with the nano editor named 'rl-medical_train.run' and start editing it:
+For example, to create job script with the nano editor named `rl-medical_train.run` and start editing it:
 
 ```bash
 [angel@avicenna ~]$ nano rl-medical_train.run
 
 ```
 
-Please, refer to the **(nano)[https://nano-editor.org/docs.php] documentation to learn how to use the editor if you are not familiar with it (remember that you can use any plain text editor)
+Please, refer to the **(nano)[https://nano-editor.org/docs.php] documentation to learn how to use the editor if you are not familiar with it (remember that you can use any other plain text editor)
 
 In our example, we are going to use the following contents for our job script:
 
 ```bash
-  GNU nano 2.9.8                                      rl-medical_train.run                                                 
 #!/bin/bash
 
 ##This is an example of a simple GPU job
@@ -160,7 +159,9 @@ In our example, we are going to use the following contents for our job script:
 #SBATCH --mem 30G        # RAM requested
 #SBATCH --gres=gpu:1     # Requesting to use GPU resources, and how many
 #SBATCH --job-name rlmedical-train01                # Job name
-#SBATCH -o job.%j.out               # File to which standard out will be written (%j is replaced automatically by the SLUR$#SBATCH -e job.%j.err               # File to which standard err will be written (%j is replaced automatically by the SLUR$
+#SBATCH -o job.%j.out               # File to which standard out will be written (%j is replaced automatically by the SLURM's job ID)
+#SBATCH -e job.%j.err               # File to which standard err will be written (%j is replaced automatically by the SLURM's job ID)
+
 ## Base directory for job input and output data (on /cscratch)
 BASEDIR=/cscratch/angel/tutorial/rl-medical/src
 
@@ -173,22 +174,8 @@ LANDMARKFILES=${BASEDIR}data/filenames/landmark_files.txt
 conda activate rl-medical
 
 ## Run RL-Medical in 'train' mode and exit the conda environment
-python ${BASEDIR}/DQN.py --task train --memory_size 30000 --init_memory_size 20000 --files IMGFILES LANDMARKFILES --model_$conda deactivate
-
-
-
-
-
-
-
-
-
-
-
-
-                                                     [ Read 28 lines ]
-^G Get Help    ^O Write Out   ^W Where Is    ^K Cut Text    ^J Justify     ^C Cur Pos     M-U Undo       M-A Mark Text
-^X Exit        ^R Read File   ^\ Replace     ^U Uncut Text  ^T To Linter   ^_ Go To Line  M-E Redo       M-6 Copy Text
+python ${BASEDIR}/DQN.py --task train --memory_size 30000 --init_memory_size 20000 --files IMGFILES LANDMARKFILES --model_name CommNet --file_type brain --landmarks 13 14 0 1 2 --multiscale --viz 0 --train_freq 50 --write
+conda deactivate
 ```
 
 
