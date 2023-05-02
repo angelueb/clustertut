@@ -176,7 +176,7 @@ conda activate rl-medical
 
 ## Run RL-Medical in 'train' mode and exit the conda environment
 python ${BASEDIR}/DQN.py --task train --memory_size 30000 --init_memory_size 20000 \
---files IMGFILES LANDMARKFILES --model_name CommNet --file_type brain \
+--files $IMGFILES $LANDMARKFILES --model_name CommNet --file_type brain \
 --landmarks 13 14 0 1 2 --multiscale --viz 0 --train_freq 50 --write
 
 conda deactivate
