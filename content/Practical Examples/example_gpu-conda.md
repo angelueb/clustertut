@@ -98,7 +98,7 @@ Wait until all the packages are downloaded and properly installed.
 
 ### Choosing the right SLURM partition
 
-Remember that in order run our computing jobs, we need to submit them to **[SLURM](https://slurm.schedmd.com/) (our cluster's resource and job management system). In this example, we need to use GPU resources to run our job, which means that we need to send the job to the right partition. In SLURM, partitions are simply sets of computing machines that are logically grouped so that SLURM can schedule and execute computing jobs on them according to some particular criteria (like availability of specific hardware resources, maximum length of the jobs, etc). In our cluster there are two partitions, as the `sinfo` command shows:
+Remember that in order run our computing jobs, we need to submit them to **[SLURM](https://slurm.schedmd.com/)** (our cluster's resource and job management system). In this example, we need to use GPU resources to run our job, which means that we need to send the job to the right partition. In SLURM, partitions are simply sets of computing machines that are logically grouped so that SLURM can schedule and execute computing jobs on them according to some particular criteria (like availability of specific hardware resources, maximum length of the jobs, etc). In our cluster there are two partitions, as the `sinfo` command shows:
 
 ```bash
 [angel@avicenna ~]$ sinfo
@@ -136,7 +136,7 @@ Note the `Gres=gpu:ampere:2(S:0)` line, which means that this particular node ha
 
 Essentially, there are two ways of submitting computing jobs to SLURM, an interactive and a batch mode. The latter is more flexible and less error-prone, specially for less experienced users, so it's the way we're going to use for this example.
 
-First, we need to create a job script, which is simply a plain text file containing some SLURM directives and parameters and the actual command of the tool (or tools) to run. You can create this file using any plain text editor. You can use **[nano](https://nano-editor.org/) or **(vim)[https://www.vim.org/] for instance, directly from the command line interface while you're connected to the cluster. Also, you can create it on your local computer and then transfer it to cluster.
+First, we need to create a job script, which is simply a plain text file containing some SLURM directives and parameters and the actual command of the tool (or tools) to run. You can create this file using any plain text editor. You can use **[nano](https://nano-editor.org/)** or **[vim](https://www.vim.org/)** for instance, directly from the command line interface while you're connected to the cluster. Also, you can create it on your local computer and then transfer it to cluster.
 
 For example, to create job script with the nano editor named `rl-medical_train.run` and start editing it:
 
@@ -145,7 +145,7 @@ For example, to create job script with the nano editor named `rl-medical_train.r
 
 ```
 
-Please, refer to the **(nano)[https://nano-editor.org/docs.php] documentation to learn how to use the editor if you are not familiar with it (remember that you can use any other plain text editor)
+Please, refer to the **(nano)[https://nano-editor.org/docs.php]** documentation to learn how to use the editor if you are not familiar with it (remember that you can use any other plain text editor)
 
 In our example, we are going to use the following contents for our job script:
 
