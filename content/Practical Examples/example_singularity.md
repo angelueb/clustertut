@@ -91,8 +91,8 @@ We can now use Salmon to build the transcriptome indices which we'll be using la
 ##This is a good example of a single-process multi-threaded job
 
 #SBATCH -p regular       # partition name
-#SBATCH -c 8             # number of cores or threads requested, PER EACH TASK of the array
-#SBATCH --mem 10G        # RAM requested, per each task again
+#SBATCH -c 8             # number of cores or threads requested
+#SBATCH --mem 10G        # RAM requested
 #SBATCH --job-name salmon-index01                # Job name
 #SBATCH -o job.%j.out               # File to which standard out will be written
 #SBATCH -e job.%j.err               # File to which standard err will be written

@@ -27,8 +27,8 @@ Singularity containers don&amp;rsquo;t need administrative privileges to be exec
       <link>https://angelueb.github.io/clustertut/practical-examples/example_gpu-conda/index.html</link>
       <pubDate>Sun, 26 Feb 2023 15:19:13 +0100</pubDate>
       <guid>https://angelueb.github.io/clustertut/practical-examples/example_gpu-conda/index.html</guid>
-      <description>Although Singularity is the recommended way to run tools on the cluster without the need of requesting administrators a system-wide installation, you can also use Conda-based installations and environments. Please note that, as with any other kind of user-level locally installed and run software, we can offer limited support.
-Installing Miniconda We are going to install Miniconda, which is a lightweight Conda distribution. We recommend it since Miniconda initial installation requires much less disk space than the full Conda distribution, and disk space on the cluster is a limited resource, (of course, with Miniconda you can install additional packages whenever you need them).</description>
+      <description>Although Singularity is the recommended way to run tools on the cluster without the need of requesting administrators a system-wide installation, you can also use Conda-based installations and environments. Please note that, as with any other kind of user-level locally installed software, we can offer limited support.
+Installing Miniconda We are going to install Miniconda, which is a lightweight Conda distribution. We recommend it, since Miniconda initial installation requires much less disk space than the full Conda distribution, and disk space on the cluster is a limited resource (of course, with Miniconda you can install additional packages whenever you need them).</description>
     </item>
   </channel>
 </rss>

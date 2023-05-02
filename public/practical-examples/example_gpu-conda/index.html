@@ -8,18 +8,18 @@
     <meta name="description" content="">
     <title>GPU job: RL-Medical with conda :: UEB cluster usage tutorial</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/clustertut/css/fontawesome-all.min.css?1682631359" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fontawesome-all.min.css?1682631359" rel="stylesheet"></noscript>
-    <link href="/clustertut/css/nucleus.css?1682631359" rel="stylesheet">
-    <link href="/clustertut/css/auto-complete.css?1682631359" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/auto-complete.css?1682631359" rel="stylesheet"></noscript>
-    <link href="/clustertut/css/perfect-scrollbar.min.css?1682631359" rel="stylesheet">
-    <link href="/clustertut/css/fonts.css?1682631359" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fonts.css?1682631359" rel="stylesheet"></noscript>
-    <link href="/clustertut/css/theme.css?1682631359" rel="stylesheet">
-    <link href="/clustertut/css/theme-learn.css?1682631359" rel="stylesheet" id="variant-style">
-    <link href="/clustertut/css/variant.css?1682631359" rel="stylesheet">
-    <link href="/clustertut/css/print.css?1682631359" rel="stylesheet" media="print">
-    <link href="/clustertut/css/ie.css?1682631359" rel="stylesheet">
-    <script src="/clustertut/js/url.js?1682631359"></script>
-    <script src="/clustertut/js/variant.js?1682631359"></script>
+    <link href="/clustertut/css/fontawesome-all.min.css?1683052188" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fontawesome-all.min.css?1683052188" rel="stylesheet"></noscript>
+    <link href="/clustertut/css/nucleus.css?1683052188" rel="stylesheet">
+    <link href="/clustertut/css/auto-complete.css?1683052188" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/auto-complete.css?1683052188" rel="stylesheet"></noscript>
+    <link href="/clustertut/css/perfect-scrollbar.min.css?1683052188" rel="stylesheet">
+    <link href="/clustertut/css/fonts.css?1683052188" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/clustertut/css/fonts.css?1683052188" rel="stylesheet"></noscript>
+    <link href="/clustertut/css/theme.css?1683052188" rel="stylesheet">
+    <link href="/clustertut/css/theme-learn.css?1683052188" rel="stylesheet" id="variant-style">
+    <link href="/clustertut/css/variant.css?1683052188" rel="stylesheet">
+    <link href="/clustertut/css/print.css?1683052188" rel="stylesheet" media="print">
+    <link href="/clustertut/css/ie.css?1683052188" rel="stylesheet">
+    <script src="/clustertut/js/url.js?1683052188"></script>
+    <script src="/clustertut/js/variant.js?1683052188"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -66,7 +66,12 @@
   <ul>
     <li><a href="#installing-miniconda">Installing Miniconda</a></li>
     <li><a href="#cloning-the-rl-medical-github-repository">Cloning the RL-Medical Github repository</a></li>
-    <li><a href="#submitting-a-gpgpu-job">Submitting a GPGPU job</a></li>
+    <li><a href="#submitting-a-gpgpu-job">Submitting a GPGPU job</a>
+      <ul>
+        <li><a href="#choosing-the-right-slurm-partition">Choosing the right SLURM partition</a></li>
+        <li><a href="#creating-a-job-submission-file">Creating a job submission file</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
             </div>
@@ -80,9 +85,9 @@
           <article class="default">
 <h1 id="gpu-job-rl-medical-with-conda">GPU job: RL-Medical with conda</h1>
 
-<p>Although Singularity is the recommended way to run tools on the cluster without the need of requesting administrators a system-wide installation, you can also use <strong><a href="https://docs.conda.io/en/latest/" target="_blank">Conda</a></strong>-based installations and environments. Please note that, as with any other kind of user-level locally installed and run software, we can offer limited support.</p>
+<p>Although Singularity is the recommended way to run tools on the cluster without the need of requesting administrators a system-wide installation, you can also use <strong><a href="https://docs.conda.io/en/latest/" target="_blank">Conda</a></strong>-based installations and environments. Please note that, as with any other kind of user-level locally installed software, we can offer limited support.</p>
 <h2 id="installing-miniconda">Installing Miniconda</h2>
-<p>We are going to install <strong><a href="https://docs.conda.io/en/latest/miniconda.html" target="_blank">Miniconda</a></strong>, which is a lightweight Conda distribution. We recommend it since Miniconda initial installation requires much less disk space than the full Conda distribution, and disk space on the cluster is a limited resource, (of course, with Miniconda you can install additional packages whenever you need them).</p>
+<p>We are going to install <strong><a href="https://docs.conda.io/en/latest/miniconda.html" target="_blank">Miniconda</a></strong>, which is a lightweight Conda distribution. We recommend it, since Miniconda initial installation requires much less disk space than the full Conda distribution, and disk space on the cluster is a limited resource (of course, with Miniconda you can install additional packages whenever you need them).</p>
 <p>First, we download the Miniconda installation script:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 </span></span><span style="display:flex;"><span>--2023-04-27 20:07:18--  https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -102,13 +107,13 @@
 </span></span></code></pre></div><p>After accepting reviewing and accepting the license, confirm the default install location (which is in your home directory) and complete the installation (the remaining default options are fine, but anyway you can change them later).</p>
 <p>Now, exit your session&hellip;</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ exit
-</span></span></code></pre></div><p>and log in again. You should see thst your command prompt indicates now that the &lsquo;base&rsquo; Conda environment is activated by default:</p>
+</span></span></code></pre></div><p>and log in again. You should see your command prompt indicating now that the &lsquo;base&rsquo; Conda environment is activated by default:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">(</span>base<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$
-</span></span></code></pre></div><p>You prevent this environment to be activated on startup with this command:</p>
+</span></span></code></pre></div><p>You can prevent this environment to be activated on startup with this command:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>conda config --set auto_activate_base false
 </span></span></code></pre></div><p>Exit en log in again to check it.</p>
 <h2 id="cloning-the-rl-medical-github-repository">Cloning the RL-Medical Github repository</h2>
-<p>Next, we get the RL-Medical code from Github. Since in this example we are going to use tha sample data that comes with the tool, we are going to place it in the /cscratch storage system:</p>
+<p>Next, we get the RL-Medical code from Github. Since in this example we are going to use the sample data that comes with the tool, we are going to place it in the <code>/cscratch</code> storage system:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ cd /cscratch/angel/tutorial/
 </span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna tutorial<span style="color:#f92672">]</span>$ git clone https://github.com/gml16/rl-medical.git
 </span></span><span style="display:flex;"><span>Cloning into <span style="color:#e6db74">&#39;rl-medical&#39;</span>...
@@ -133,7 +138,8 @@
 </span></span><span style="display:flex;"><span>...
 </span></span></code></pre></div><p>Wait until all the packages are downloaded and properly installed.</p>
 <h2 id="submitting-a-gpgpu-job">Submitting a GPGPU job</h2>
-<p>Remember that in order run our computing jobs, we need to submit them to SLURM (our cluster&rsquo;s resource and job management system). In this example, we need to use GPU resources to run our job, which means that we need to send the job to the right partition. In SLURM, partitions are simply sets of computing machines that are logically grouped so that SLURM can schedule and execute computing jobs on them according to some particular criteria (like availability of specific hardware resources, maximum length of the jobs, etc). In our cluster there are two partitions, as the <code>sinfo</code> command shows:</p>
+<h3 id="choosing-the-right-slurm-partition">Choosing the right SLURM partition</h3>
+<p>Remember that in order run our computing jobs, we need to submit them to **<a href="https://slurm.schedmd.com/" target="_blank">SLURM</a> (our cluster&rsquo;s resource and job management system). In this example, we need to use GPU resources to run our job, which means that we need to send the job to the right partition. In SLURM, partitions are simply sets of computing machines that are logically grouped so that SLURM can schedule and execute computing jobs on them according to some particular criteria (like availability of specific hardware resources, maximum length of the jobs, etc). In our cluster there are two partitions, as the <code>sinfo</code> command shows:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ sinfo
 </span></span><span style="display:flex;"><span>PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
 </span></span><span style="display:flex;"><span>regular*     up 1-00:00:00      <span style="color:#ae81ff">1</span>   idle c01
@@ -157,8 +163,54 @@
 </span></span><span style="display:flex;"><span>   CapWatts<span style="color:#f92672">=</span>n/a
 </span></span><span style="display:flex;"><span>   CurrentWatts<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> AveWatts<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
 </span></span><span style="display:flex;"><span>   ExtSensorsJoules<span style="color:#f92672">=</span>n/s ExtSensorsWatts<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> ExtSensorsTemp<span style="color:#f92672">=</span>n/s
-</span></span></code></pre></div><p>Note the <code>Gres=gpu:ampere:2(S:0)</code> line, which means that this particular node has 2 GPUs (in this case, a description of the type, <code>ampere</code>, is included)</p>
-
+</span></span></code></pre></div><p>Note the <code>Gres=gpu:ampere:2(S:0)</code> line, which means that this particular node has 2 GPUs (in this case, a description of the type, <code>ampere</code>, is included).</p>
+<h3 id="creating-a-job-submission-file">Creating a job submission file</h3>
+<p>Essentially, there are two ways of submitting computing jobs to SLURm, an interactive and a batch mode. The latter is more flexibble and les error-prone, specially for less experienced users, so it&rsquo;s the way we&rsquo;re going to use for this example.</p>
+<p>First, we need to create a job script, which is simply a plain text file containing some SLURM directives and parameters, including the actual tool to run. You can create this file using any plain text editor. You can use **<a href="https://nano-editor.org/" target="_blank">nano</a> or **(vim)[https://www.vim.org/] for instance, directly from the command line interface while you&rsquo;re connected to the cluster. Also, you can create it on your local computer and then transfer it to cluster.</p>
+<p>For example, to create job script with the nano editor named &lsquo;rl-medical_train.run&rsquo; and start editing it:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>angel@avicenna ~<span style="color:#f92672">]</span>$ nano rl-medical_train.run
+</span></span></code></pre></div><p>Please, refer to the **(nano)[https://nano-editor.org/docs.php] documentation to learn how to use the editor if you are not familiar with it (remember that you can use any plain text editor)</p>
+<p>In our example, we are going to use the following contents for our job script:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  GNU nano 2.9.8                                      rl-medical_train.run                                                 
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">##This is an example of a simple GPU job</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH -p gpgpu       # partition name</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH -c 10            # number of CPU cores or threads requested</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH --mem 30G        # RAM requested</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH --gres=gpu:1     # Requesting to use GPU resources, and how many</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH --job-name rlmedical-train01                # Job name</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SBATCH -o job.%j.out               # File to which standard out will be written (%j is replaced automatically by the SLUR$#SBATCH -e job.%j.err               # File to which standard err will be written (%j is replaced automatically by the SLUR$</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Base directory for job input and output data (on /cscratch)</span>
+</span></span><span style="display:flex;"><span>BASEDIR<span style="color:#f92672">=</span>/cscratch/angel/tutorial/rl-medical/src
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Input, Output variables</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>IMGFILES<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>BASEDIR<span style="color:#e6db74">}</span>data/filenames/image_files.txt
+</span></span><span style="display:flex;"><span>LANDMARKFILES<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>BASEDIR<span style="color:#e6db74">}</span>data/filenames/landmark_files.txt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Activate the rl-medical Conda environment</span>
+</span></span><span style="display:flex;"><span>conda activate rl-medical
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Run RL-Medical in &#39;train&#39; mode and exit the conda environment</span>
+</span></span><span style="display:flex;"><span>python <span style="color:#e6db74">${</span>BASEDIR<span style="color:#e6db74">}</span>/DQN.py --task train --memory_size <span style="color:#ae81ff">30000</span> --init_memory_size <span style="color:#ae81ff">20000</span> --files IMGFILES LANDMARKFILES --model_$conda deactivate
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                                                     <span style="color:#f92672">[</span> Read <span style="color:#ae81ff">28</span> lines <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>^G Get Help    ^O Write Out   ^W Where Is    ^K Cut Text    ^J Justify     ^C Cur Pos     M-U Undo       M-A Mark Text
+</span></span><span style="display:flex;"><span>^X Exit        ^R Read File   ^<span style="color:#ae81ff">\ </span>Replace     ^U Uncut Text  ^T To Linter   ^_ Go To Line  M-E Redo       M-6 Copy Text
+</span></span></code></pre></div>
             <footer class="footline">
             </footer>
           </article>
@@ -179,12 +231,12 @@
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="/clustertut/js/auto-complete.js?1682631359" defer></script>
-        <script src="/clustertut/js/lunr/lunr.min.js?1682631359" defer></script>
-        <script src="/clustertut/js/lunr/lunr.stemmer.support.min.js?1682631359" defer></script>
-        <script src="/clustertut/js/lunr/lunr.multi.min.js?1682631359" defer></script>
-        <script src="/clustertut/js/lunr/lunr.en.min.js?1682631359" defer></script>
-        <script src="/clustertut/js/search.js?1682631359" defer></script>
+        <script src="/clustertut/js/auto-complete.js?1683052188" defer></script>
+        <script src="/clustertut/js/lunr/lunr.min.js?1683052188" defer></script>
+        <script src="/clustertut/js/lunr/lunr.stemmer.support.min.js?1683052188" defer></script>
+        <script src="/clustertut/js/lunr/lunr.multi.min.js?1683052188" defer></script>
+        <script src="/clustertut/js/lunr/lunr.en.min.js?1683052188" defer></script>
+        <script src="/clustertut/js/search.js?1683052188" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -234,8 +286,8 @@
         </div>
       </div>
     </aside>
-    <script src="/clustertut/js/clipboard.min.js?1682631359" defer></script>
-    <script src="/clustertut/js/perfect-scrollbar.min.js?1682631359" defer></script>
-    <script src="/clustertut/js/theme.js?1682631359" defer></script>
+    <script src="/clustertut/js/clipboard.min.js?1683052188" defer></script>
+    <script src="/clustertut/js/perfect-scrollbar.min.js?1683052188" defer></script>
+    <script src="/clustertut/js/theme.js?1683052188" defer></script>
   </body>
 </html>

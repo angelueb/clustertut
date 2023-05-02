@@ -5,11 +5,11 @@ draft: false
 weight: 4
 ---
 
-Although Singularity is the recommended way to run tools on the cluster without the need of requesting administrators a system-wide installation, you can also use **[Conda](https://docs.conda.io/en/latest/)**-based installations and environments. Please note that, as with any other kind of user-level locally installed and run software, we can offer limited support.
+Although Singularity is the recommended way to run tools on the cluster without the need of requesting administrators a system-wide installation, you can also use **[Conda](https://docs.conda.io/en/latest/)**-based installations and environments. Please note that, as with any other kind of user-level locally installed software, we can offer limited support.
 
 ## Installing Miniconda
 
-We are going to install **[Miniconda](https://docs.conda.io/en/latest/miniconda.html)**, which is a lightweight Conda distribution. We recommend it since Miniconda initial installation requires much less disk space than the full Conda distribution, and disk space on the cluster is a limited resource, (of course, with Miniconda you can install additional packages whenever you need them).
+We are going to install **[Miniconda](https://docs.conda.io/en/latest/miniconda.html)**, which is a lightweight Conda distribution. We recommend it, since Miniconda initial installation requires much less disk space than the full Conda distribution, and disk space on the cluster is a limited resource (of course, with Miniconda you can install additional packages whenever you need them).
 
 First, we download the Miniconda installation script:
 
@@ -43,13 +43,13 @@ Now, exit your session...
 
 ```
 
-and log in again. You should see thst your command prompt indicates now that the 'base' Conda environment is activated by default:
+and log in again. You should see your command prompt indicating now that the 'base' Conda environment is activated by default:
 
 ```bash
 (base) [angel@avicenna ~]$
 ```
 
-You prevent this environment to be activated on startup with this command:
+You can prevent this environment to be activated on startup with this command:
 
 ```bash
 conda config --set auto_activate_base false
@@ -58,7 +58,7 @@ Exit en log in again to check it.
 
 ## Cloning the RL-Medical Github repository
 
-Next, we get the RL-Medical code from Github. Since in this example we are going to use tha sample data that comes with the tool, we are going to place it in the /cscratch storage system:
+Next, we get the RL-Medical code from Github. Since in this example we are going to use the sample data that comes with the tool, we are going to place it in the `/cscratch` storage system:
 
 ```bash
 [angel@avicenna ~]$ cd /cscratch/angel/tutorial/
@@ -96,7 +96,9 @@ Wait until all the packages are downloaded and properly installed.
 
 ## Submitting a GPGPU job
 
-Remember that in order run our computing jobs, we need to submit them to SLURM (our cluster's resource and job management system). In this example, we need to use GPU resources to run our job, which means that we need to send the job to the right partition. In SLURM, partitions are simply sets of computing machines that are logically grouped so that SLURM can schedule and execute computing jobs on them according to some particular criteria (like availability of specific hardware resources, maximum length of the jobs, etc). In our cluster there are two partitions, as the `sinfo` command shows:
+### Choosing the right SLURM partition
+
+Remember that in order run our computing jobs, we need to submit them to **[SLURM](https://slurm.schedmd.com/) (our cluster's resource and job management system). In this example, we need to use GPU resources to run our job, which means that we need to send the job to the right partition. In SLURM, partitions are simply sets of computing machines that are logically grouped so that SLURM can schedule and execute computing jobs on them according to some particular criteria (like availability of specific hardware resources, maximum length of the jobs, etc). In our cluster there are two partitions, as the `sinfo` command shows:
 
 ```bash
 [angel@avicenna ~]$ sinfo
@@ -128,5 +130,67 @@ NodeName=g01 Arch=x86_64 CoresPerSocket=1
    ExtSensorsJoules=n/s ExtSensorsWatts=0 ExtSensorsTemp=n/s
 ```
 
-Note the `Gres=gpu:ampere:2(S:0)` line, which means that this particular node has 2 GPUs (in this case, a description of the type, `ampere`, is included)
+Note the `Gres=gpu:ampere:2(S:0)` line, which means that this particular node has 2 GPUs (in this case, a description of the type, `ampere`, is included).
+
+### Creating a job submission file
+
+Essentially, there are two ways of submitting computing jobs to SLURm, an interactive and a batch mode. The latter is more flexibble and les error-prone, specially for less experienced users, so it's the way we're going to use for this example.
+
+First, we need to create a job script, which is simply a plain text file containing some SLURM directives and parameters, including the actual tool to run. You can create this file using any plain text editor. You can use **[nano](https://nano-editor.org/) or **(vim)[https://www.vim.org/] for instance, directly from the command line interface while you're connected to the cluster. Also, you can create it on your local computer and then transfer it to cluster.
+
+For example, to create job script with the nano editor named 'rl-medical_train.run' and start editing it:
+
+```bash
+[angel@avicenna ~]$ nano rl-medical_train.run
+
+```
+
+Please, refer to the **(nano)[https://nano-editor.org/docs.php] documentation to learn how to use the editor if you are not familiar with it (remember that you can use any plain text editor)
+
+In our example, we are going to use the following contents for our job script:
+
+```bash
+  GNU nano 2.9.8                                      rl-medical_train.run                                                 
+#!/bin/bash
+
+##This is an example of a simple GPU job
+
+#SBATCH -p gpgpu       # partition name
+#SBATCH -c 10            # number of CPU cores or threads requested
+#SBATCH --mem 30G        # RAM requested
+#SBATCH --gres=gpu:1     # Requesting to use GPU resources, and how many
+#SBATCH --job-name rlmedical-train01                # Job name
+#SBATCH -o job.%j.out               # File to which standard out will be written (%j is replaced automatically by the SLUR$#SBATCH -e job.%j.err               # File to which standard err will be written (%j is replaced automatically by the SLUR$
+## Base directory for job input and output data (on /cscratch)
+BASEDIR=/cscratch/angel/tutorial/rl-medical/src
+
+## Input, Output variables
+
+IMGFILES=${BASEDIR}data/filenames/image_files.txt
+LANDMARKFILES=${BASEDIR}data/filenames/landmark_files.txt
+
+## Activate the rl-medical Conda environment
+conda activate rl-medical
+
+## Run RL-Medical in 'train' mode and exit the conda environment
+python ${BASEDIR}/DQN.py --task train --memory_size 30000 --init_memory_size 20000 --files IMGFILES LANDMARKFILES --model_$conda deactivate
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [ Read 28 lines ]
+^G Get Help    ^O Write Out   ^W Where Is    ^K Cut Text    ^J Justify     ^C Cur Pos     M-U Undo       M-A Mark Text
+^X Exit        ^R Read File   ^\ Replace     ^U Uncut Text  ^T To Linter   ^_ Go To Line  M-E Redo       M-6 Copy Text
+```
+
+
+
 
