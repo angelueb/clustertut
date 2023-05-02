@@ -174,10 +174,26 @@ LANDMARKFILES=${BASEDIR}data/filenames/landmark_files.txt
 conda activate rl-medical
 
 ## Run RL-Medical in 'train' mode and exit the conda environment
-python ${BASEDIR}/DQN.py --task train --memory_size 30000 --init_memory_size 20000 --files IMGFILES LANDMARKFILES --model_name CommNet --file_type brain --landmarks 13 14 0 1 2 --multiscale --viz 0 --train_freq 50 --write
+python ${BASEDIR}/DQN.py --task train --memory_size 30000 --init_memory_size 20000 /
+--files IMGFILES LANDMARKFILES --model_name CommNet --file_type brain /
+--landmarks 13 14 0 1 2 --multiscale --viz 0 --train_freq 50 --write
+
 conda deactivate
 ```
 
+Now let's submit our job to SLURM using the job script weve just created:
+
+```bash
+
+```
+
+Next we can check the state of our job:
+
+```bash
+
+```
+
+We can see that our job is running (note the 'X' value) on the g01 node. In case the job was queued for execution (due to lack of resource availability at the moment, priority reasons, etc...) the state would be '' ('waiting'), and SLURM will automatically run it when the conditions 
 
 
 
