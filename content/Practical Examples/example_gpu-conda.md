@@ -145,7 +145,7 @@ For example, to create job script with the nano editor named `rl-medical_train.r
 
 ```
 
-Please, refer to the **(nano)[https://nano-editor.org/docs.php]** documentation to learn how to use the editor if you are not familiar with it (remember that you can use any other plain text editor)
+Please, refer to the **[nano](https://nano-editor.org/docs.php)** documentation to learn how to use the editor if you are not familiar with it (remember that you can use any other plain text editor)
 
 In our example, we are going to use the following contents for our job script:
 
@@ -186,6 +186,7 @@ python DQN.py --task train --memory_size 30000 --init_memory_size 20000 \
 
 conda deactivate
 ```
+### Submitting and monitoring the SLURM job
 
 Now let's submit our job to SLURM using the job script we've just created:
 
