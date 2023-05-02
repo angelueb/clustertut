@@ -174,7 +174,8 @@ conda activate rl-medical
 ## are specified using relative paths (which is NOT a specially good practice).
 cd /cscratch/angel/tutorial/rl-medical/src
 
-## Input, Output variables
+## Input variables. 
+## (remember that any output data should be also stored in your /cscratch directory)
 IMGFILES=data/filenames/image_files.txt
 LANDMARKFILES=data/filenames/landmark_files.txt
 
@@ -186,21 +187,102 @@ python DQN.py --task train --memory_size 30000 --init_memory_size 20000 \
 conda deactivate
 ```
 
-Now let's submit our job to SLURM using the job script weve just created:
+Now let's submit our job to SLURM using the job script we've just created:
 
 ```bash
-
+[angel@avicenna ~]$ sbatch rl-medical_train.run
+Submitted batch job 208
 ```
+Note that SLURM is reporting the ID of our job, 208.
+
 
 Next we can check the state of our job:
 
 ```bash
-
+[angel@avicenna ~]$ squeue -u angel
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+               208     gpgpu rlmedica    angel  R       1:37      1 g01
 ```
 
-We can see that our job is running (note the 'R' value) on the g01 node. In case the job cloud not be run immediately (due to lack of resource availability at the moment, priority reasons, etc...) the state would be 'PD' (which means 'Pending'), and SLURM will keep it that way until the conditions for running it are met. Then it will be executed automatically (it will enter the 'R' state). You can find detailed information about job states in the **[SLURM documentation](https://slurm.schedmd.com/squeue.html#SECTION_JOB-STATE-CODES)**
+We can see that our job is running (note the 'R' value) on the g01 node. In case the job could not be run immediately (due to lack of resource availability at the moment, priority reasons, etc...) the state would be 'PD' (which means 'Pending'), and SLURM will keep it that way until the conditions for running it are met. Then it would be executed automatically (it would enter the 'R' state). You can find detailed information about SLURM job states in the **[SLURM documentation](https://slurm.schedmd.com/squeue.html#SECTION_JOB-STATE-CODES)**
+
+We can format the output of the `squeue` command to get a bit more information:
+
+```bash
+[angel@avicenna ~]$ squeue -u angel -o "%.5i %.6u %.9P %.8j %.8T %.6M %.12l %.5C %.10b %.10R"
+JOBID   USER PARTITION     NAME    STATE   TIME   TIME_LIMIT  CPUS TRES_PER_N NODELIST(REASON)
+  208  angel     gpgpu rlmedica  RUNNING   0:51   1-00:00:00    10 gres:gpu:1        g01
+```
+
+Note the information regarding some of the resources we requested in out job sccript (10 CPUS, 1 GPU)
+
+With the `scontrol`command we can get quite detailed information about our specific job:
+
+```bash
+[angel@avicenna ~]$ scontrol show jobid -d 208
+JobId=208 JobName=rlmedical-train01
+   UserId=angel(1000) GroupId=angel(1000) MCS_label=N/A
+   Priority=4294901713 Nice=0 Account=(null) QOS=(null)
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   DerivedExitCode=0:0
+   RunTime=00:08:49 TimeLimit=1-00:00:00 TimeMin=N/A
+   SubmitTime=2023-05-02T22:06:42 EligibleTime=2023-05-02T22:06:42
+   AccrueTime=2023-05-02T22:06:42
+   StartTime=2023-05-02T22:06:43 EndTime=2023-05-03T22:06:43 Deadline=N/A
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2023-05-02T22:06:43 Scheduler=Main
+   Partition=gpgpu AllocNode:Sid=avicenna:2636496
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=g01
+   BatchHost=g01
+   NumNodes=1 NumCPUs=10 NumTasks=1 CPUs/Task=10 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=10,mem=30G,node=1,billing=10
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   JOB_GRES=gpu:ampere:1
+     Nodes=g01 CPU_IDs=0-9 Mem=30720 GRES=gpu:ampere:1(IDX:0)
+   MinCPUsNode=10 MinMemoryNode=30G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/home/angel/rl-medical_train.run
+   WorkDir=/home/angel
+   StdErr=/home/angel/job.208.err
+   StdIn=/dev/null
+   StdOut=/home/angel/job.208.out
+   Power=
+   TresPerNode=gres:gpu:1
+```
+
+Additionally, we can get monitoring information of the gpu usage of the with the `nvidia-smi`tool. We can use the `srun` command (which allows to submit jobs to SLURM interactively) to attach the ID of our job to `nvidia-smi`:
+
+```bash
+[angel@avicenna ~]$ srun --jobid 208 nvidia-smi
+Tue May  2 22:22:27 2023
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 515.43.04    Driver Version: 515.43.04    CUDA Version: 11.7     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  NVIDIA GeForce ...  Off  | 00000000:43:00.0 Off |                  N/A |
+| 30%   35C    P8    11W / 350W |    543MiB / 24576MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   1  NVIDIA GeForce ...  Off  | 00000000:88:00.0 Off |                  N/A |
+| 30%   40C    P0   101W / 350W |      0MiB / 24576MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|    0   N/A  N/A    101488      C   python                            541MiB |
++-----------------------------------------------------------------------------+
+```
 
 
-
+Note that in this way, we are submitting an additional job step to SLURM, but using the same allocated resources of your original job (anyway the required resources for the `nvidia-smi`job step should be minimal and should not noticeably influence your original job performance).
 
 
