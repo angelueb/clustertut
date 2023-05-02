@@ -159,23 +159,27 @@ In our example, we are going to use the following contents for our job script:
 #SBATCH --mem 30G        # RAM requested
 #SBATCH --gres=gpu:1     # Requesting to use GPU resources, and how many
 #SBATCH --job-name rlmedical-train01                # Job name
-#SBATCH -o job.%j.out               # File to which standard out will be written (%j is replaced automatically by the SLURM's job ID)
-#SBATCH -e job.%j.err               # File to which standard err will be written (%j is replaced automatically by the SLURM's job ID)
+#SBATCH -o job.%j.out               # File to which standard out will be written
+                                    # (%j is replaced automatically by the SLURM's job ID)
+#SBATCH -e job.%j.err               # File to which standard err will be written
+                                    # (%j is replaced automatically by the SLURM's job ID)
 
-## Base directory for job input and output data (on /cscratch)
-BASEDIR=/cscratch/angel/tutorial/rl-medical/src
-
-## Input, Output variables
-
-IMGFILES=${BASEDIR}data/filenames/image_files.txt
-LANDMARKFILES=${BASEDIR}data/filenames/landmark_files.txt
 
 ## Initialize Conda and activate the rl-medical environment
 . /home/${USER}/miniconda3/etc/profile.d/conda.sh
 conda activate rl-medical
 
+## Enter the directory where the main RL-Medical python script is.
+## This is needed since the input filenames that RL-Medical uses as test data
+## are specified using relative paths (which is NOT a specially good practice).
+cd /cscratch/angel/tutorial/rl-medical/src
+
+## Input, Output variables
+IMGFILES=data/filenames/image_files.txt
+LANDMARKFILES=data/filenames/landmark_files.txt
+
 ## Run RL-Medical in 'train' mode and exit the conda environment
-python ${BASEDIR}/DQN.py --task train --memory_size 30000 --init_memory_size 20000 \
+python DQN.py --task train --memory_size 30000 --init_memory_size 20000 \
 --files $IMGFILES $LANDMARKFILES --model_name CommNet --file_type brain \
 --landmarks 13 14 0 1 2 --multiscale --viz 0 --train_freq 50 --write
 
@@ -194,7 +198,9 @@ Next we can check the state of our job:
 
 ```
 
-We can see that our job is running (note the 'X' value) on the g01 node. In case the job was queued for execution (due to lack of resource availability at the moment, priority reasons, etc...) the state would be '' ('waiting'), and SLURM will automatically run it when the conditions 
+We can see that our job is running (note the 'R' value) on the g01 node. In case the job cloud not be run immediately (due to lack of resource availability at the moment, priority reasons, etc...) the state would be 'PD' (which means 'Pending'), and SLURM will keep it that way until the conditions for running it are met. Then it will be executed automatically (it will enter the 'R' state). You can find detailed information about job states in the **[SLURM documentation](https://slurm.schedmd.com/squeue.html#SECTION_JOB-STATE-CODES)**
+
+
 
 
 
