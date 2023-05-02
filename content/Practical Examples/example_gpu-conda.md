@@ -286,6 +286,6 @@ Tue May  2 22:22:27 2023
 
 Note that in this way, we are submitting an additional job step to SLURM, but using the same allocated resources of your original job (anyway the required resources for the `nvidia-smi`job step should be minimal and should not noticeably influence your original job performance).
 
-As the output above shows, we can get detailed information about the GPUs usage on the node our job is running on. We can see that our job is running on the first GPU out of the two installed, the GPU memory usage, temperature, wattage, etc... 
+As the output above shows, we can get detailed information about the GPUs usage for the node our job is running on. We can see that our job is running on the first GPU out of the two installed, the GPU memory usage, temperature, wattage, etc... 
 
 
